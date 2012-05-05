@@ -127,6 +127,27 @@ couch
   });
 ```
 
+### Working with Errors
+
+If CouchDB returns an error for your request, it will be constructed into a special `CouchError` object. It
+is an extension of javascript standard errors but contains all of the information needed to correctly handle
+the error. Here is an example:
+
+```js
+couch
+  .db('appUsers')
+  .update(id, { /* my doc */ })
+  .end(function (err, doc) {
+    if (err && err instanceof supercouch.CouchError) {
+      // this is a couch response error
+      var code = err.code // such as 'conflicts'
+    } else if (err) {
+      // this is another type of errors
+    }
+    // ..
+  });
+```
+
 ## Tests
 
 Tests are written in the BDD styles for the [Mocha](http://visionmedia.github.com/mocha) test runner using the
