@@ -962,9 +962,14 @@ var exports = module.exports = function (options) {
 
 exports.version = '0.0.0';
 
-function Couch (options) {
+function Couch (address, options) {
+  if ('object' === typeof address) {
+    options = address;
+    address = 'http://localhost:5984';
+  }
+
   options = options || {};
-  this.baseUrl = options.url || 'http://localhost:5984';
+  this.baseUrl = address || 'http://localhost:5984';
 };
 
 function makeRequest (_url, cb) {

@@ -6,7 +6,7 @@ if (!chai) {
 var expect = chai.expect;
 
 describe('SuperCouch', function () {
-  var couch = supercouch({ url: 'http://local.host:5000/_couchdb' });
+  var couch = supercouch('http://local.host:5000/_couchdb');
 
   it('should have a version', function () {
     expect(supercouch).to.have.property('version');
