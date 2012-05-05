@@ -1,13 +1,12 @@
-var chai = require('chai')
-  , chaiHttp = require('chai-http')
-  , expect = chai.expect;
+if (!chai) {
+  var chai = require('chai')
+    , supercouch = require('..');
+}
 
-chai.use(chaiHttp);
-
-var supercouch = require('..');
+var expect = chai.expect;
 
 describe('SuperCouch', function () {
-  var couch = supercouch();
+  var couch = supercouch({ url: 'http://local.host:5000/_couchdb' });
 
   it('should have a version', function () {
     expect(supercouch).to.have.property('version');
