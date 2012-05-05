@@ -9,14 +9,14 @@ This module is not yet available for installation.
 ## Getting Started
 
 ```js
-# node.js
+// node.js
 var supercouch = require('supercouch')
   , couch = supercouch('http://localhost:5984');
 
-# browser
+// browser
 var couch = supercouch('http://localhost:5984');
 
-# basic request (check connection)
+// basic request (check connection)
 couch.version(function (err, res) {
   console.log(res.version);
 });
