@@ -24,7 +24,7 @@ To run the browser side tests, first make the most recent version:
 
     make 
 
-Then point your browser to [http://local.host:5000/test/browser/](http://local.host:5000/test/browser/].
+Then point your browser to [http://local.host:5000/test/browser/](http://local.host:5000/test/browser/).
 
 ## License
 
