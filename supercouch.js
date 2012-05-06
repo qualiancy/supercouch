@@ -953,48 +953,163 @@ var superagent = function(exports){
 module.exports = superagent;
 });
 
-require.register("supercouch", function (module, exports, require) {
-var request = require('superagent');
+require.register("supercouch/couch", function (module, exports, require) {
+var agent = require('superagent');
 
-var exports = module.exports = function (options) {
-  return new Couch(options);
-};
+var Request = require('./request')
+  , _ = require('./util');
 
-exports.version = '0.0.0';
+module.exports = Couch;
 
-function Couch (address, options) {
+function Couch (address, opts) {
   if ('object' === typeof address) {
-    options = address;
+    opts = address;
     address = 'http://localhost:5984';
   }
 
-  options = options || {};
-  this.baseUrl = address || 'http://localhost:5984';
+  opts = opts || {};
+  this.reqOpts = {
+    base: address || 'http://localhost:5984'
+  }
 };
 
-function makeRequest (_url, cb) {
-  var url = this.baseUrl + _url;
-  request
-    .get(url)
-    .end(function (res) {
-      var json
-        , err = null;
-      try {
-        json = JSON.parse(res.text);
-      } catch (ex) {
-        err = ex;
-      }
+Couch.prototype.request = function (method, _url) {
+  var opts = _.merge({
+      method: method
+    , path: _url
+  }, this.reqOpts);
 
-      if (err) return cb(err);
-      cb(null, json);
-    });
+  var req = new Request(agent, opts);
+  return req;
+};
+
+
+}); // module couch
+
+
+require.register("supercouch/request", function (module, exports, require) {
+
+
+module.exports = Request;
+
+function Request (agent, opts) {
+  this.agent = agent;
+
+  opts = opts || {};
+  this.method = opts.method;
+  this.base = opts.base;
+  this.path = opts.path || '/';
+  this.qs = opts.qs || [];
+  this.body = opts.body;
 }
 
-Couch.prototype.version = function (cb) {
-  makeRequest.call(this, '/', function (err, res) {
-    cb(err, res);
+Request.prototype.end = function (cb) {
+  var self = this
+    , agent = this.agent
+    , method = this.method.toUpperCase()
+    , req;
+
+  if ('GET' === method) {
+    var url = buildUrl.call(this);
+    req = agent.get(url);
+  } else if ('POST' === method) {
+    var url = buildUrl.call(this);
+    req = agent.post(url);
+  } else if ('PUT' === method) {
+    var url = buildUrl.call(this);
+    req = agent.put(url);
+  } else if ('DEL' === method) {
+    var url = buildUrl.call(this);
+    req = agent.del(url);
+  } else {
+    return cb(new Error('Unsuppored request method'));
+  }
+
+  req.end(function makeRequest (res) {
+    var json
+      , resErr = null;
+
+    try {
+      json = JSON.parse(res.text);
+    } catch (ex) {
+      resErr = ex;
+    }
+
+    // TODO: implement custom CouchError
+    if (json.error) resErr = json;
+
+    if (resErr) return cb(resErr);
+    cb(null, json);
   });
 };
+
+function buildUrl () {
+  return this.base + this.path;
+}
+
+}); // module request
+
+
+require.register("supercouch/util", function (module, exports, require) {
+var exports = module.exports = {};
+
+exports.merge = function(a, b){
+  if (a && b) {
+    for (var key in b) {
+      a[key] = b[key];
+    }
+  }
+  return a;
+};
+
+exports.defaults = function (a, b) {
+  if (a && b) {
+    for (var key in b) {
+      if ('undefined' == typeof a[key]) a[key] = b[key];
+    }
+  }
+  return a;
+};
+
+exports.extend = function (proto, klass) {
+  var child = exports.inherits(this, proto, klass);
+  child.extend = this.extend;
+  return child;
+};
+
+exports.inherits = function (parent, proto, klass) {
+  var child,
+      noop = function () {};
+
+  if (proto && proto.hasOwnProperty('constructor')) {
+    child = proto.constructor;
+  } else {
+    child = function () { return parent.apply(this, arguments); };
+  }
+
+  exports.merge(child, parent);
+  noop.prototype = parent.prototype;
+  child.prototype = new noop();
+
+  if (proto) exports.merge(child.prototype, proto);
+  if (klass) exports.merge(child, klass);
+  child.prototype.constructor = child;
+
+  return child;
+};
+
+}); // module util
+
+
+require.register("supercouch", function (module, exports, require) {
+
+var Couch = require('./supercouch/couch');
+
+var exports = module.exports = function (address, opts) {
+  return new Couch(address, opts);
+}
+
+exports.version = '0.0.0';
 
 }); // module supercouch
   return require('supercouch');

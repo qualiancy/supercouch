@@ -13,12 +13,14 @@ describe('SuperCouch', function () {
   });
 
   it('should be able to get the CouchDB version', function (done) {
-    couch.version(function (err, res) {
-      expect(err).to.not.exist;
-      expect(res).to.be.a('object');
-      expect(res).to.have.property('version');
-      done();
-    });
+    couch
+      .request('get', '/')
+      .end(function (err, res) {
+        expect(err).to.not.exist;
+        expect(res).to.be.a('object');
+        expect(res).to.have.property('version');
+        done();
+      });
   });
 
 });
