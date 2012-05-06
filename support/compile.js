@@ -63,11 +63,14 @@ iteratePath(basepath);
  * @param {Object} folio glossary configuration
  */
 
+console.log('\n  \u001b[90mSUPERCOUCH BROWSER BUILD\u001b[0m');
+console.log('  \u001b[90m------------------------\u001b[0m\n');
 var applicationJs = new folio.Glossary(appfiles, {
   compilers: {
     js: function (name, source, filename) {
       var title = filename.replace(basepath + '/', '').replace('.js', '')
         , buf = '\nrequire.register("' + title + '", function (module, exports, require) {\n';
+      console.log('  \u001b[34mincluding  ::  lib/%s.js\u001b[0m', title);
       buf += source;
       buf += '\n}); // module ' + name;
       return buf;
@@ -91,5 +94,5 @@ var prefix = fs.readFileSync(join(__dirname, 'browser', 'prefix.js'), 'utf8')
 applicationJs.compile(function (err, src) {
   var content = prefix + src + suffix;
   fs.writeFileSync(join(__dirname, '..', 'supercouch.js'), content, 'utf8');
-  console.log('completed: supercouch.js');
+  console.log('\n  \u001b[32mcompleted  ::  supercouch.js\u001b[0m\n');
 });
