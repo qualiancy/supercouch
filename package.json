@@ -21,7 +21,7 @@
     "chai-http": "*",
     "carbon": "0.2.x",
     "connect": "2.2.x",
-    "folio": "0.2.x"
+    "uglify-js": "1.2.x"
   },
   "optionalDependencies": {},
   "engines": {
