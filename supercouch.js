@@ -1012,36 +1012,9 @@ Couch.prototype.dbInfo = function (name, fn) {
   var req = new Request(opts)
   if (fn && 'function' == typeof fn) req.end(fn);
   return req;
-}
-
-}); // module couch
-
-
-require.register("supercouch/reqs/db", function (module, exports, require) {
-var Request = require('../request');
-
-module.export = Database;
-
-function Database (db, opts) {
-  opts = opts || {};
-  this.opts = opts;
-}
-
-
-
-}); // module db
-
-
-require.register("supercouch/reqs/doc", function (module, exports, require) {
-var Request = require('../request');
-
-module.exports = Document;
-
-function Document (opts) {
-
 };
 
-}); // module doc
+}); // module couch
 
 
 require.register("supercouch/request", function (module, exports, require) {
