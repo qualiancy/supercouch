@@ -954,10 +954,9 @@ module.exports = superagent;
 });
 
 require.register("supercouch/couch", function (module, exports, require) {
-var agent = require('superagent');
-
-var Request = require('./request')
-  , _ = require('./util');
+var _ = require('./util')
+  , Request = require('./request')
+  , DocRequest = require('./reqs/doc');
 
 module.exports = Couch;
 
@@ -976,10 +975,19 @@ function Couch (address, opts) {
 Couch.prototype.request = function (method, _url) {
   var opts = _.merge({
       method: method
-    , path: _url
+    , path: [ _url ]
   }, this.reqOpts);
 
-  var req = new Request(agent, opts);
+  var req = new Request(opts);
+  return req;
+};
+
+Couch.prototype.db = function (db) {
+  var opts = _.merge({
+    path: [ db ]
+  }, this.reqOpts);
+
+  var req = new DocRequest(opts);
   return req;
 };
 
@@ -987,25 +995,54 @@ Couch.prototype.request = function (method, _url) {
 }); // module couch
 
 
-require.register("supercouch/request", function (module, exports, require) {
+require.register("supercouch/reqs/doc", function (module, exports, require) {
+var Request = require('../request');
 
+module.exports = Request.extend({
+
+    insert: function (obj) {
+
+    }
+
+  , update: function (id, rev, obj) {
+
+    }
+
+  , get: function (id, rev) {
+      this.method = 'GET';
+      this.path.push(id);
+      if (rev) this.qs.rev = rev;
+      return this;
+    }
+
+  , set: function (id, rev) {
+      // not sure if we can do this or not.
+    }
+});
+
+}); // module doc
+
+
+require.register("supercouch/request", function (module, exports, require) {
+var agent = require('superagent');
+
+var _ = require('./util');
 
 module.exports = Request;
 
-function Request (agent, opts) {
-  this.agent = agent;
-
+function Request (opts) {
   opts = opts || {};
   this.method = opts.method;
   this.base = opts.base;
-  this.path = opts.path || '/';
-  this.qs = opts.qs || [];
+  this.path = opts.path || [];
+  this.qs = opts.qs || {};
   this.body = opts.body;
 }
 
+Request.extend = _.extend;
+
 Request.prototype.end = function (cb) {
   var self = this
-    , agent = this.agent
     , method = this.method.toUpperCase()
     , req;
 
@@ -1044,7 +1081,18 @@ Request.prototype.end = function (cb) {
 };
 
 function buildUrl () {
-  return this.base + this.path;
+  this.path
+    .join('/')
+    .split('/')
+    .filter(function (part) {
+      return !!!part.trim.length;
+    });
+
+  var path = (this.path.length === 1 && this.path[0] == '/')
+    ? ''
+    : this.path.join('/');
+
+  return this.base + '/' + path;
 }
 
 }); // module request
