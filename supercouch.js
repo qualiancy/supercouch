@@ -955,8 +955,7 @@ module.exports = superagent;
 
 require.register("supercouch/couch", function (module, exports, require) {
 var _ = require('./util')
-  , Request = require('./request')
-  , DocRequest = require('./reqs/doc');
+  , Request = require('./request');
 
 module.exports = Couch;
 
@@ -982,43 +981,65 @@ Couch.prototype.request = function (method, _url) {
   return req;
 };
 
-Couch.prototype.db = function (db) {
+Couch.prototype.dbAdd = function (name, fn) {
   var opts = _.merge({
-    path: [ db ]
+      method: 'PUT'
+    , path: [ name ]
   }, this.reqOpts);
 
-  var req = new DocRequest(opts);
+  var req = new Request(opts)
+  if (fn && 'function' == typeof fn) req.end(fn);
   return req;
 };
 
+Couch.prototype.dbDel = function (name, fn) {
+  var opts = _.merge({
+      method: 'DELETE'
+    , path: [ name ]
+  }, this.reqOpts);
+
+  var req = new Request(opts)
+  if (fn && 'function' == typeof fn) req.end(fn);
+  return req;
+};
+
+Couch.prototype.dbInfo = function (name, fn) {
+  var opts = _.merge({
+      method: 'GET'
+    , path: [ name ]
+  }, this.reqOpts);
+
+  var req = new Request(opts)
+  if (fn && 'function' == typeof fn) req.end(fn);
+  return req;
+}
 
 }); // module couch
+
+
+require.register("supercouch/reqs/db", function (module, exports, require) {
+var Request = require('../request');
+
+module.export = Database;
+
+function Database (db, opts) {
+  opts = opts || {};
+  this.opts = opts;
+}
+
+
+
+}); // module db
 
 
 require.register("supercouch/reqs/doc", function (module, exports, require) {
 var Request = require('../request');
 
-module.exports = Request.extend({
+module.exports = Document;
 
-    insert: function (obj) {
+function Document (opts) {
 
-    }
-
-  , update: function (id, rev, obj) {
-
-    }
-
-  , get: function (id, rev) {
-      this.method = 'GET';
-      this.path.push(id);
-      if (rev) this.qs.rev = rev;
-      return this;
-    }
-
-  , set: function (id, rev) {
-      // not sure if we can do this or not.
-    }
-});
+};
 
 }); // module doc
 
@@ -1039,8 +1060,6 @@ function Request (opts) {
   this.body = opts.body;
 }
 
-Request.extend = _.extend;
-
 Request.prototype.end = function (cb) {
   var self = this
     , method = this.method.toUpperCase()
@@ -1055,7 +1074,7 @@ Request.prototype.end = function (cb) {
   } else if ('PUT' === method) {
     var url = buildUrl.call(this);
     req = agent.put(url);
-  } else if ('DEL' === method) {
+  } else if ('DELETE' === method) {
     var url = buildUrl.call(this);
     req = agent.del(url);
   } else {
