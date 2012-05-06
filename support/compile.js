@@ -4,6 +4,8 @@
  * MIT Licensed
  */
 
+console.log('\n  \u001b[90mSUPERCOUCH BROWSER BUILD\u001b[0m\n');
+
 /*!
  * Script dependancies
  */
@@ -11,88 +13,67 @@
 var fs = require('fs')
   , path = require('path')
   , join = path.join
-  , folio = require('folio');
 
 /*!
- * Script variables
+ * Read input file
  */
 
-var appfiles = []
-  , basepath = join(__dirname, '..', 'lib');
-
-var superagent = new folio.Glossary([
-    require.resolve('superagent/superagent.js')
-], {
-    prefix: '\nrequire.register("superagent", function (module, exports, require) {\n'
-  , suffix: 'module.exports = superagent;\n});'
-});
-
-appfiles.push(superagent);
-
-/**
- * Recursively iterate through a given path
- * and add all `.js` files to an array.
- *
- * @param {String} absolute path
- */
-
-function iteratePath (p) {
-  var self = this
-    , files = fs.readdirSync(p);
-  files.forEach(function (filename) {
-    var file = path.join(p, filename)
-      , stat = fs.statSync(file);
-    if (stat.isDirectory()) {
-      iteratePath(file);
-    } else if (stat.isFile()) {
-      if (path.extname(file) == '.js')
-        appfiles.push(file);
-    }
-  });
-};
-
-// Go!
-iteratePath(basepath);
-
-/**
- * Package together all found files into a
- * folio.Glossary, defining a custom "compiler"
- * that will wrap our script with the needed commonjs
- *
- * @param {Array} files
- * @param {Object} folio glossary configuration
- */
-
-console.log('\n  \u001b[90mSUPERCOUCH BROWSER BUILD\u001b[0m');
-console.log('  \u001b[90m------------------------\u001b[0m\n');
-var applicationJs = new folio.Glossary(appfiles, {
-  compilers: {
-    js: function (name, source, filename) {
-      var title = filename.replace(basepath + '/', '').replace('.js', '')
-        , buf = '\nrequire.register("' + title + '", function (module, exports, require) {\n';
-      console.log('  \u001b[34mincluding  ::  lib/%s.js\u001b[0m', title);
-      buf += source;
-      buf += '\n}); // module ' + name;
-      return buf;
-    }
-  }
-});
+console.log('  \u001b[34mreading  ::  lib/supercouch.js\u001b[0m');
+var raw = fs.readFileSync(join(__dirname, '..', 'lib/supercouch.js'), 'utf8');
 
 /*!
- * Load up our prefix/suffix
+ * Extract Browser Code
  */
 
-var prefix = fs.readFileSync(join(__dirname, 'browser', 'prefix.js'), 'utf8')
-  , suffix = fs.readFileSync(join(__dirname, 'browser', 'suffix.js'), 'utf8')
+console.log('  \u001b[34mparsing  ::  lib/supercouch.js\u001b[0m');
+var endBrowser = false
+  , src = raw
+    .split('\n')
+    .filter(function (line) {
+      if (endBrowser) return false;
+      if (line.trim() == '// == END BROWSER ==') {
+        endBrowser = true;
+        return false;
+      }
+      return true;
+    });
 
-/**
- * Compile the folio.Glossary, applying our wrapper,
- * and output the src. Wrap with prefix/suffix and
- * write to file.
+src.push('}({}, superagent);');
+src = src.join('\n');
+
+/*!
+ * Minify
  */
 
-applicationJs.compile(function (err, src) {
-  var content = prefix + src + suffix;
-  fs.writeFileSync(join(__dirname, '..', 'supercouch.js'), content, 'utf8');
-  console.log('\n  \u001b[32mcompleted  ::  supercouch.js\u001b[0m\n');
-});
+console.log('  \u001b[34mminify   ::  supercouch.js\u001b[0m');
+
+var uglify = require('uglify-js')
+  , jsp = uglify.parser
+  , pro = uglify.uglify
+  , orig = src
+  , ast = jsp.parse(orig)
+  , min;
+
+ast = pro.ast_mangle(ast);
+ast = pro.ast_squeeze(ast);
+min = pro.gen_code(ast);
+
+/*!
+ * Save normal version
+ */
+
+console.log('\n  \u001b[35msaving   ::  supercouch.js\u001b[0m');
+fs.writeFileSync(join(__dirname, '..', 'supercouch.js'), src, 'utf8');
+
+/*!
+ * Save minified version
+ */
+
+console.log('  \u001b[35msaving   ::  supercouch-min.js\u001b[0m');
+fs.writeFileSync(join(__dirname, '..', 'supercouch-min.js'), min, 'utf8');
+
+/*!
+ * All done!
+ */
+
+console.log('\n  \u001b[32mSUCCESS!\u001b[0m\n');
