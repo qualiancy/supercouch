@@ -1,23 +1,72 @@
+/*!
+ * SuperCouch
+ * Copyright (c) 2012 Jake Luer <jake@qualiancy.com>
+ * MIT Licensed
+ *
+ * @website http://supercou.ch
+ * @issues https://github.com/qualiancy/supercouch/issues
+ */
+
+/*!
+ * Context loader
+ */
 
 var supercouch = function (exports, agent) {
+
+  /*!
+   * Main Export
+   */
 
   exports = function (address) {
     return new Couch(address);
   }
 
+  /*!
+   * SupeCouch version
+   */
+
   exports.version = '0.0.0';
+
+  /*!
+   * isFn utility
+   *
+   * @param {Function} fn
+   * @api utility
+   */
 
   function isFn (fn) {
     return fn && 'function' === typeof fn;
   }
 
+  /*!
+   * isObj utility
+   *
+   * @param {Object} fn
+   * @api utility
+   */
+
   function isObj (obj) {
     return obj && 'object' === typeof obj;
   }
 
+  /*!
+   * isArray utility
+   *
+   * @param {Array} fn
+   * @api utility
+   */
+
   function isArray (arr) {
     '[object Array]' === {}.toString.call(arr);
   }
+
+  /*!
+   * merge utility
+   *
+   * @param {Object} a
+   * @param {Object} b
+   * @api utility
+   */
 
   function merge (a, b){
     if (a && b) {
@@ -28,6 +77,14 @@ var supercouch = function (exports, agent) {
     return a;
   }
 
+  /*!
+   * defaults utility
+   *
+   * @param {Object} a
+   * @param {Object} b
+   * @api utility
+   */
+
   function defaults (a, b) {
     if (a && b) {
       for (var key in b) {
@@ -37,6 +94,16 @@ var supercouch = function (exports, agent) {
     return a;
   }
 
+  /**
+   * # Request (constructor)
+   *
+   * Constructs the final request and interacest
+   * with superagent.
+   *
+   * @param {Object} options
+   * @api private
+   */
+
   function Request (opts) {
     opts = opts || {};
     this.method = opts.method;
@@ -45,6 +112,18 @@ var supercouch = function (exports, agent) {
     this.qs = opts.qs || {};
     this.body = opts.body;
   }
+
+  /**
+   * # end(callback);
+   *
+   * Contructs all the given parameters
+   * in a request, sends reqest to superagent,
+   * parses results, and sends appropriate values
+   * back to callback
+   *
+   * @param {Function} callback
+   * @api public
+   */
 
   Request.prototype.end = function (cb) {
     var self = this
@@ -85,6 +164,16 @@ var supercouch = function (exports, agent) {
     });
   };
 
+  /*!
+   * buildUrl
+   *
+   * Takes all parameters in a constructed
+   * Request and builds the appropriate url.
+   *
+   * @context {Request}
+   * @api private
+   */
+
   function buildUrl () {
     this.path
       .join('/')
@@ -100,6 +189,19 @@ var supercouch = function (exports, agent) {
     return this.base + '/' + path;
   }
 
+  /*!
+   * # Couch (constructor)
+   *
+   * The first exposed object in the chainable
+   * API. Exposes methods to interact on with
+   * server level events. Also, some methods
+   * will construct Requests, while others will
+   * construct the next level chainable objects.
+   *
+   * @param {String} address
+   * @param {Object} options
+   * @api private
+   */
 
   function Couch (address, opts) {
     if ('object' === typeof address) {
@@ -113,6 +215,23 @@ var supercouch = function (exports, agent) {
     }
   };
 
+  /**
+   * # request(method, url[, callback])
+   *
+   * Helper method to directly create Requests
+   * to the server. Useful for any urls that might
+   * not be included in the chainable api.
+   *
+   * Providing a callback will immediately execute
+   * the request.
+   *
+   * @param {String} method
+   * @param {String} url
+   * @param {Function} callback (optional)
+   * @returns {Request} constructed request
+   * @api public
+   */
+
   Couch.prototype.request = function (method, _url, fn) {
     var opts = merge({
         method: method
@@ -123,6 +242,20 @@ var supercouch = function (exports, agent) {
     if (isFn(fn)) req.end(fn);
     return req;
   };
+
+  /**
+   * # dbAdd(name[, fn])
+   *
+   * Constructs a request that will add a database
+   * to the CouchDb server.
+   *
+   * Providing a callback will immediately execute
+   * the request.
+   *
+   * @param {String} db name
+   * @param {Function} callback (optional)
+   * @returns {Request} constructed request
+   */
 
   Couch.prototype.dbAdd = function (name, fn) {
     var opts = merge({
@@ -135,16 +268,19 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
-  Couch.prototype.dbDel = function (name, fn) {
-    var opts = merge({
-        method: 'DELETE'
-      , path: [ name ]
-    }, this.reqOpts);
-
-    var req = new Request(opts);
-    if (isFn(fn)) req.end(fn);
-    return req;
-  };
+  /**
+   * # dbInfo(name[, fn])
+   *
+   * Constructs a request that will get the information
+   * about a database in the CouchDb server.
+   *
+   * Providing a callback will immediately execute
+   * the request.
+   *
+   * @param {String} db name
+   * @param {Function} callback (optional)
+   * @returns {Request} constructed request
+   */
 
   Couch.prototype.dbInfo = function (name, fn) {
     var opts = merge({
@@ -157,6 +293,42 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
+  /**
+   * # dbDel(name[, fn])
+   *
+   * Constructs a request that will remove a database
+   * to the CouchDb server.
+   *
+   * Providing a callback will immediately execute
+   * the request.
+   *
+   * @param {String} db name
+   * @param {Function} callback (optional)
+   * @returns {Request} constructed request
+   */
+
+  Couch.prototype.dbDel = function (name, fn) {
+    var opts = merge({
+        method: 'DELETE'
+      , path: [ name ]
+    }, this.reqOpts);
+
+    var req = new Request(opts);
+    if (isFn(fn)) req.end(fn);
+    return req;
+  };
+
+  /**
+   * # db(name)
+   *
+   * Contructs a Db interface for chaining actions
+   * on a specific database.
+   *
+   * @param {String} db name
+   * @returns {Db} constructed db chain api
+   * @api public
+   */
+
   Couch.prototype.db = function (name) {
     var opts = merge({
       path: [ name ]
@@ -166,15 +338,43 @@ var supercouch = function (exports, agent) {
     return db;
   };
 
+  /**
+   * # action(name[, body[, callback]])
+   *
+   * Constructs a request that performs an CouchDb action
+   * on the server.
+   *
+   * If the name of the action is not valid an error will
+   * be thrown.
+   *
+   * Proving a callback will immediately execute the
+   * request to the server.
+   *
+   * Actions
+   * - `all dbs': get a list of all databases
+   * - `active tasks`: get a list of currenly running tasks
+   * - `uuids`: get a list of all uuids generated on the server
+   * - `stats`: get all couch server statistics
+   * - `log`: get a tail of ther server's log file (requires admin priv)
+   * - `replicate`: post a replicate command to the couch server
+   * - `restart`:
+   *
+   * @param {String} command name
+   * @param {Object} body for post commands
+   * @param {Function} optional callback
+   * @api public
+   * @see http://wiki.apache.org/couchdb/Complete_HTTP_API_Reference
+   */
+
   Couch.prototype.action = function (name, body, fn) {
     var actions = {
         'all dbs'       : 'GET'
       , 'active tasks'  : 'GET'
-      , 'replicate'     : 'POST'
       , 'uuids'         : 'GET'
-      , 'restart'       : 'POST'
       , 'stats'         : 'GET'
       , 'log'           : 'GET'
+      , 'replicate'     : 'POST'
+      , 'restart'       : 'POST'
     };
 
     if (!actions[name])
@@ -195,10 +395,49 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
+  /**
+   * # Db (constructor)
+   *
+   * Provides chainable API for requests to a specific db.
+   * Constructed when `.db('name')` method is performed on
+   * a couch instance.
+   *
+   * @param {Object} current request options
+   * @api private
+   */
+
   function Db (opts) {
     opts = opts || {};
     this.reqOpts = opts;
   }
+
+  /*!
+   * # insert(doc[, callback])
+   *
+   * Inserts a new document to the currently
+   * selected database.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .insert(docObj)
+   *      .end(cb);
+   *
+   * Document is optional but should be provided
+   * using the requests `send`  command in the chainable api.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .insert()
+   *      .send(docObj)
+   *      .end(cb);
+   *
+   * If a callback is provided will execute the
+   * insert request immediately.
+   *
+   * @param {Object} document
+   * @param {Function} optional callback
+   * @api public
+   */
 
   Db.prototype.insert = function (body, fn) {
     if (isFn(obj)) fn = body, body = {};
@@ -212,6 +451,35 @@ var supercouch = function (exports, agent) {
     if (isFn(fn)) req.end(fn);
     return req;
   };
+
+  /*!
+   * # get(id[, rev[, callback])
+   *
+   * Retrieves a document, optionally at a specific
+   * revision, from the currently selected database.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .get('123', 'rev123')
+   *      .end(cb);
+   *
+   * Revision is optional, or can also be provided
+   * using the requests `qs` method.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .get('123')
+   *      .qs('rev', 'rev123')
+   *      .end(cb);
+   *
+   * If a callback is provided will execute the
+   * insert request immediately.
+   *
+   * @param {Mixed} document id
+   * @param {String} document revision
+   * @param {Function} optional callback
+   * @api public
+   */
 
   Db.prototype.get = function (id, rev, fn) {
     if (isFn(rev)) fn = rev, rev = null;
@@ -228,7 +496,53 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
-  Db.prototype.set = function (id, rev, obj, fn) {
+  /*!
+   * # update([id[, rev[, doc[, callback]]]])
+   *
+   * Updates a document, optionally at a specific
+   * revision, to the provided document object,
+   * from the currently selected database.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .update('abc', docObj)
+   *      .end(cb);
+   *
+   * Revision is optional. Document is also optional
+   * but should be provided using the requests `send`
+   * command in the chainable api.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .update('abc')
+   *      .send(docObj)
+   *      .end(cb);
+   *
+   * When updating the document, if you wish to
+   * use an aleady existing document object, you
+   * can provide that directly without specifing
+   * the `id` parameter. This does _not_ work with
+   * the requests `send` method.
+   *
+   *    couch
+   *      .db('my_app')
+   *      .update({
+   *          _id: '123'
+   *        , _rev: 'rev123'
+   *        , name: 'Arthur Dent'
+   *      })
+   *      .end(cb);
+   *
+   * If a callback is provided will execute the
+   * insert request immediately.
+   *
+   * @param {Mixed} document id
+   * @param {String} document revision
+   * @param {Function} optional callback
+   * @api public
+   */
+
+  Db.prototype.update = function (id, rev, obj, fn) {
     if (isObj(rev)) fn = obj, obj = rev, rev = null;
 
     var opts = merge({
@@ -243,6 +557,33 @@ var supercouch = function (exports, agent) {
     if (isFn(fn)) req.end(fn);
     return req;
   };
+
+  /**
+   * # action(name[, body[, callback]])
+   *
+   * Constructs a request that performs an CouchDb action
+   * on the currently selected database.
+   *
+   * If the name of the action is not valid an error will
+   * be thrown.
+   *
+   * Proving a callback will immediately execute the
+   * request to the server.
+   *
+   * Actions
+   * - `changes`: gets changes for the database
+   * - `compact`: post instructing the db to compact
+   * - `view cleanup`: post instructing the db to perform view cleanup
+   * - `temp view`: post instructing the db to execute view function (admin privileges)
+   * - `ensure full commit`: post instructing the db commit all changes to disk
+   * - `purge`: post instructing the db to purge history docs from db history
+   *
+   * @param {String} command name
+   * @param {Object} body for post commands
+   * @param {Function} optional callback
+   * @api public
+   * @see http://wiki.apache.org/couchdb/Complete_HTTP_API_Reference
+   */
 
   Db.prototype.action = function (name, body, fn) {
     var actions = {
