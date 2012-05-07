@@ -94,7 +94,7 @@ var supercouch = function (exports, agent) {
     return a;
   }
 
-  /**
+  /*!
    * # Request (constructor)
    *
    * Constructs the final request and interacest
@@ -395,7 +395,7 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
-  /**
+  /*!
    * # Db (constructor)
    *
    * Provides chainable API for requests to a specific db.
@@ -411,7 +411,7 @@ var supercouch = function (exports, agent) {
     this.reqOpts = opts;
   }
 
-  /*!
+  /**
    * # insert(doc[, callback])
    *
    * Inserts a new document to the currently
@@ -452,7 +452,7 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
-  /*!
+  /**
    * # get(id[, rev[, callback])
    *
    * Retrieves a document, optionally at a specific
@@ -496,7 +496,7 @@ var supercouch = function (exports, agent) {
     return req;
   };
 
-  /*!
+  /**
    * # update([id[, rev[, doc[, callback]]]])
    *
    * Updates a document, optionally at a specific
