@@ -1,6 +1,6 @@
 /*!
- * chai-spies :: browser build script
- * Copyright (c) 2012 Jake Luer <jake@alogicalparadox.com>
+ * SuperCouch - browser build tool
+ * Copyright (c) 2012 Jake Luer <jake@qualiancy.com>
  * MIT Licensed
  */
 
@@ -69,8 +69,19 @@ fs.writeFileSync(join(__dirname, '..', 'supercouch.js'), src, 'utf8');
  * Save minified version
  */
 
+var notice = [
+    '/*!'
+  , ' * SuperCouch'
+  , ' * Copyright (c) 2012 Jake Luer <jake@qualiancy.com>'
+  , ' * MIT Licensed'
+  , ' *'
+  , ' * @website http://supercou.ch'
+  , ' * @issues https://github.com/qualiancy/supercouch/issues'
+  , ' */\n'
+].join('\n')
+
 console.log('  \u001b[35msaving   ::  supercouch-min.js\u001b[0m');
-fs.writeFileSync(join(__dirname, '..', 'supercouch-min.js'), min, 'utf8');
+fs.writeFileSync(join(__dirname, '..', 'supercouch-min.js'), notice + min, 'utf8');
 
 /*!
  * All done!
