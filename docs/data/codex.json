@@ -1,0 +1,18 @@
+{
+  "locals": {
+    "title": "SuperCouch"
+  }
+
+  , "plugins": [
+    { "name": "code"
+    , "files": [
+        { "name": "index"
+        , "title": "SuperCouch for CouchDb"
+        , "file": "../../lib/supercouch.js"
+        , "description": ":)"
+        , "template": "index"
+        , "render-file": false }
+      ]
+    }
+  ]
+}
