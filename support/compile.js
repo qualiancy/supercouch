@@ -80,8 +80,8 @@ var notice = [
   , ' */\n'
 ].join('\n')
 
-console.log('  \u001b[35msaving   ::  supercouch-min.js\u001b[0m');
-fs.writeFileSync(join(__dirname, '..', 'supercouch-min.js'), notice + min, 'utf8');
+console.log('  \u001b[35msaving   ::  supercouch.min.js\u001b[0m');
+fs.writeFileSync(join(__dirname, '..', 'supercouch.min.js'), notice + min, 'utf8');
 
 /*!
  * All done!
