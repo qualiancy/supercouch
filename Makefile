@@ -20,4 +20,13 @@ lib-cov:
 	@rm -rf lib-cov
 	@jscoverage lib lib-cov
 
-.PHONY: all test test-cov lib-cov test-server
+clean-docs:
+	@rm -rf docs/out
+	
+docs: clean-docs
+	@./node_modules/.bin/codex build \
+		-i docs
+	@./node_modules/.bin/codex serve \
+		-d docs/out
+
+.PHONY: all test test-cov lib-cov test-server clean-docs docs
