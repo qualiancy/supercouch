@@ -8,11 +8,11 @@ var expect = chai.expect;
 describe('SuperCouch', function () {
   var couch = supercouch('http://local.host:5000/_couchdb');
 
-  it('should have a version', function () {
+  it('has a version', function () {
     expect(supercouch).to.have.property('version');
   });
 
-  it('should be able to get the CouchDB version', function (done) {
+  it('can get the CouchDB version', function (done) {
     couch
       .request('get', '/')
       .end(function (err, res) {
@@ -25,7 +25,7 @@ describe('SuperCouch', function () {
 
   describe('database management', function () {
 
-    it('should be able to create a new db', function (done) {
+    it('can create a new db', function (done) {
       couch
         .dbAdd('sc_dbmgmt')
         .end(function (err, res) {
@@ -35,7 +35,7 @@ describe('SuperCouch', function () {
         });
     });
 
-    it('should be able to get the info for a db', function (done) {
+    it('can get the info for a db', function (done) {
       couch
         .dbInfo('sc_dbmgmt')
         .end(function (err, res) {
@@ -46,7 +46,17 @@ describe('SuperCouch', function () {
         });
     });
 
-    it('should be able to delete a db', function (done) {
+    it('can check if a db exist', function(done) {
+      couch
+        .dbExist('sc_dbmgmt')
+        .end(function (err, res) {
+          expect(err).to.not.exist;
+          expect(res).to.be.true;
+          done();
+        });
+    });
+
+    it('can delete a db', function (done) {
       couch
         .dbDel('sc_dbmgmt')
         .end(function (err, res) {
