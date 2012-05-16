@@ -3,10 +3,26 @@ if (!chai) {
     , supercouch = require('..');
 }
 
+/**
+ * Support
+ *
+ * @type {Function}
+ */
 var expect = chai.expect;
-var couch = supercouch('http://local.host:5000/_couchdb');
+
+/**
+ * Test database
+ *
+ * @type {String}
+ */
 var database = 'sc_dbmgmt';
 
+/**
+ * Ensure database.
+ *
+ * @param {String} name
+ * @param {Function} callback
+ */
 function ensureDb(name, cb) {
   couch
     .dbExists(name)
@@ -16,9 +32,29 @@ function ensureDb(name, cb) {
     });
 };
 
+/**
+ * Remove database.
+ *
+ * @param {String} name
+ * @param {Function} callback
+ */
 function removeDb(name, cb) {
   couch.dbDel(name).end(cb);
 };
+
+// TODO: Add custom Chai.js matchers.
+//
+// Idea:
+//
+//    expect(record).to.be.deleted.from(db);
+//    expect(record).to.exist.in(db);
+
+/**
+ * Subject
+ *
+ * @type {Supercouch}
+ */
+var couch = supercouch('http://local.host:5000/_couchdb');
 
 describe('SuperCouch', function () {
 
