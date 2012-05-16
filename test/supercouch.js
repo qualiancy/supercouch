@@ -16,7 +16,7 @@ function ensureDb(name, cb) {
     });
 };
 
-function clean(name, cb) {
+function removeDb(name, cb) {
   couch.dbDel(name).end(cb);
 };
 
@@ -44,7 +44,7 @@ describe('SuperCouch', function () {
   });
 
   it('can create a new db', function (done) {
-    clean(database, function() {
+    removeDb(database, function() {
       couch
         .dbAdd(database)
         .end(function (err, res) {
@@ -76,8 +76,26 @@ describe('SuperCouch', function () {
       });
   });
 
-  it('can create a new record', function() {
+  it('can create a new record', function(done) {
+    couch
+      .db(database)
+      .insert({ _id: '1', foo: 'bar' })
+      .end(function (err, res) {
+        expect(err).to.not.exist;
+        expect(res.ok).to.be.true;
+        done();
+      });
+  });
 
+  it('can retrive a record', function(done) {
+    // TODO: Ensure the record
+    couch
+      .db(database)
+      .get('1')
+      .end(function (err, res) {
+        expect(err).to.not.exist;
+        done();
+      });
   });
 
   describe('db existance', function() {
