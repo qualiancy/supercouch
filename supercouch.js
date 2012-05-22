@@ -110,11 +110,7 @@ var supercouch = function (exports, agent) {
      */
 
     opts = opts || {};
-    this.method = opts.method;
-    this.base = opts.base;
-    this.path = opts.path || [];
-    this.qs = opts.qs || {};
-    this.body = opts.body;
+    this.reqOpts = opts;
   }
 
   /**
@@ -132,28 +128,39 @@ var supercouch = function (exports, agent) {
 
   Request.prototype.end = function (cb) {
     var self = this
-      , method = this.method.toUpperCase()
+      , opts = this.reqOpts
+      , url
+      , method = opts.method.toUpperCase()
       , req;
 
     if ('GET' === method) {
-      var url = buildUrl.call(this);
+      url = buildUrl.call(this);
       req = agent.get(url);
     } else if ('POST' === method) {
-      var url = buildUrl.call(this);
+      url = buildUrl.call(this);
       req = agent.post(url);
     } else if ('PUT' === method) {
-      var url = buildUrl.call(this);
+      url = buildUrl.call(this);
       req = agent.put(url);
     } else if ('DELETE' === method) {
-      var url = buildUrl.call(this);
+      url = buildUrl.call(this);
       req = agent.del(url);
+    } else if ('HEAD' === method) {
+      url = buildUrl.call(this);
+      req = agent.head(url);
     } else {
       return cb(new Error('Unsuppored request method'));
+    }
+
+    if (opts.body) {
+      req.send(opts.body);
     }
 
     req.end(function makeRequest (res) {
       var json
         , resErr = null;
+
+      if (method === 'HEAD') return cb(null, res.statusCode !== 404);
 
       try {
         json = JSON.parse(res.text);
@@ -180,18 +187,19 @@ var supercouch = function (exports, agent) {
    */
 
   function buildUrl () {
-    this.path
+    var opts = this.reqOpts
+    opts.path
       .join('/')
       .split('/')
       .filter(function (part) {
         return !!!part.trim.length;
       });
 
-    var path = (this.path.length === 1 && this.path[0] == '/')
+    var path = (opts.path.length === 1 && opts.path[0] == '/')
       ? ''
-      : this.path.join('/');
+      : opts.path.join('/');
 
-    return this.base + '/' + path;
+    return opts.base + '/' + path;
   }
 
   /**
@@ -377,6 +385,37 @@ var supercouch = function (exports, agent) {
   };
 
   /**
+   * ### dbExists(name[, fn])
+   *
+   * Constructs a request that will check if
+   * database exists.
+   *
+   *     couch
+   *       .dbExists('my_app')
+   *       .end(cb);
+   *
+   * Providing a callback will immediately execute
+   * the request.
+   *
+   * @param {String} db name
+   * @param {Function} callback (optional)
+   * @returns {Request} constructed request
+   * @api public
+   * @name dbInfo
+   */
+
+  Couch.prototype.dbExists = function (name, fn) {
+    var opts = merge({
+        method: 'HEAD'
+      , path: [ name ]
+    }, this.reqOpts);
+
+    var req = new Request(opts);
+    if (isFn(fn)) req.end(fn);
+    return req;
+  };
+
+  /**
    * ### dbDel(name[, fn])
    *
    * Constructs a request that will remove a database
@@ -535,11 +574,11 @@ var supercouch = function (exports, agent) {
    */
 
   Db.prototype.insert = function (body, fn) {
-    if (isFn(obj)) fn = body, body = {};
+    if (isFn(body)) fn = body, body = {};
 
     var opts = merge({
         method: 'POST'
-      , body: {}
+      , body: body
     }, this.reqOpts);
 
     var req = new Request(opts);
