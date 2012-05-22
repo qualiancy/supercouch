@@ -19,6 +19,7 @@
           <div id="action" class="section managing_couchdb"><a href="#managing_couchdb-action" class="scroll">action</a></div>
           <div id="dbAdd" class="section managing_couchdb"><a href="#managing_couchdb-dbAdd" class="scroll">dbAdd</a></div>
           <div id="dbInfo" class="section managing_couchdb"><a href="#managing_couchdb-dbInfo" class="scroll">dbInfo</a></div>
+          <div id="dbExists" class="section managing_couchdb"><a href="#managing_couchdb-dbExists" class="scroll">dbExists</a></div>
           <div id="dbDel" class="section managing_couchdb"><a href="#managing_couchdb-dbDel" class="scroll">dbDel</a></div>
           <div id="db" class="section managing_couchdb"><a href="#managing_couchdb-db" class="scroll">db</a></div>
           <div id="databases_and_documents" class="head"><a href="#header-databases_and_documents" class="scroll">Databases and Documents</a></div>
@@ -176,6 +177,25 @@ about a database in the CouchDb server.
 </p>
 <pre><code>couch
   .dbInfo(<span class="string">'my_app'</span>)
+  .end(cb);</code></pre>
+<p>Providing a callback will immediately execute
+the request.
+</p>
+</div>
+        </div>
+        <div id="managing_couchdb-dbExists" class="segment">
+          <div class="summary"><h3>dbExists(name[, fn])</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc">(optional)</span></li>
+          </ul>
+          <div class="description"><p>Constructs a request that will check if
+database exists.
+
+</p>
+<pre><code>couch
+  .dbExists(<span class="string">'my_app'</span>)
   .end(cb);</code></pre>
 <p>Providing a callback will immediately execute
 the request.
