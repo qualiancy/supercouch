@@ -16,7 +16,7 @@ describe('SuperCouch', function () {
    * @param {Function} callback
    */
 
-  function ensureDb(name, cb) {
+  function ensureDb (name, cb) {
     couch
       .dbExists(name)
       .end(function (err, exists) {
@@ -36,7 +36,7 @@ describe('SuperCouch', function () {
    * @param {Function} callback
    */
 
-  function removeDb(name, cb) {
+  function removeDb (name, cb) {
     couch
       .dbDel(name)
       .end(function (err, res) {
@@ -55,8 +55,6 @@ describe('SuperCouch', function () {
   after(function (done) {
     removeDb(database, done);
   });
-
-  // TODO: DB cleanup after tests
 
   it('exposes a version', function () {
     expect(supercouch).to.have.property('version');
@@ -106,7 +104,7 @@ describe('SuperCouch', function () {
       });
   });
 
-  it('can create a new record with id', function(done) {
+  it('can create a new record with id', function (done) {
     couch
       .db(database)
       .insert({ _id: '1', foo: 'bar' })
@@ -128,8 +126,7 @@ describe('SuperCouch', function () {
       });
   });
 
-  it('can retrive a record', function(done) {
-    // TODO: Ensure the record
+  it('can retrive a record', function (done) {
     couch
       .db(database)
       .get('1')
@@ -141,7 +138,7 @@ describe('SuperCouch', function () {
 
   describe('db existance', function() {
 
-    it('can tell if a db exists', function(done) {
+    it('can tell if a db exists', function (done) {
       couch
         .dbExists(database)
         .end(function (err, res) {
@@ -151,7 +148,7 @@ describe('SuperCouch', function () {
         });
     });
 
-    it('can tell if a db does not exist', function(done) {
+    it('can tell if a db does not exist', function (done) {
       couch
         .dbExists('this-is-unreal')
         .end(function (err, res) {
