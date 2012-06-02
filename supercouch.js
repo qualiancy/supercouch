@@ -28,6 +28,17 @@ var supercouch = function (exports, agent) {
   exports.version = '0.0.0';
 
   /*!
+   * toString utility
+   *
+   * Provided as variable for easier browser minification.
+   *
+   * @param {Object} object to test
+   * @api private
+   */
+
+  var toString = Object.prototype.toString;
+
+  /*!
    * isFn utility
    *
    * @param {Function} fn
@@ -35,7 +46,7 @@ var supercouch = function (exports, agent) {
    */
 
   function isFn (fn) {
-    return fn && 'function' === typeof fn;
+    return '[object Function]' === toString.call(fn);
   }
 
   /*!
@@ -46,7 +57,7 @@ var supercouch = function (exports, agent) {
    */
 
   function isObj (obj) {
-    return obj && 'object' === typeof obj;
+    return obj === Object(obj);
   }
 
   /*!
@@ -56,9 +67,9 @@ var supercouch = function (exports, agent) {
    * @api private
    */
 
-  function isArray (arr) {
-    '[object Array]' === {}.toString.call(arr);
-  }
+  var isArray = Array.isArray || function (arr) {
+    return '[object Array]' === toString.call(arr);
+  };
 
   /*!
    * merge utility
@@ -129,50 +140,40 @@ var supercouch = function (exports, agent) {
   Request.prototype.end = function (cb) {
     var self = this
       , opts = this.reqOpts
-      , url
+      , url = buildUrl.call(this)
       , method = opts.method.toUpperCase()
       , req;
 
-    if ('GET' === method) {
-      url = buildUrl.call(this);
-      req = agent.get(url);
-    } else if ('POST' === method) {
-      url = buildUrl.call(this);
-      req = agent.post(url);
-    } else if ('PUT' === method) {
-      url = buildUrl.call(this);
-      req = agent.put(url);
-    } else if ('DELETE' === method) {
-      url = buildUrl.call(this);
-      req = agent.del(url);
-    } else if ('HEAD' === method) {
-      url = buildUrl.call(this);
-      req = agent.head(url);
-    } else {
-      return cb(new Error('Unsuppored request method'));
-    }
+    if ('GET' === method) req = agent.get(url);
+    else if ('POST' === method) req = agent.post(url);
+    else if ('PUT' === method) req = agent.put(url);
+    else if ('DELETE' === method) req = agent.del(url);
+    else if ('HEAD' === method) req = agent.head(url);
+    else return cb(new Error('Unsuppored request method'));
 
-    if (opts.body) {
-      req.send(opts.body);
-    }
+    if (opts.body) req.send(opts.body);
 
     req.end(function makeRequest (res) {
       var json
         , resErr = null;
 
-      if (method === 'HEAD') return cb(null, res.statusCode !== 404);
-
-      try {
-        json = JSON.parse(res.text);
-      } catch (ex) {
-        resErr = ex;
+      if (method === 'HEAD') {
+        var val = (opts.validate)
+          ? opts.validate(res)
+          : res.status !== 404;
+        return cb(null, val);
       }
 
-      // TODO: implement custom CouchError
-      if (json.error) resErr = json;
+      try { json = JSON.parse(res.text); }
+      catch (ex) { resErr = ex; }
 
+      // TODO: implement custom CouchError
+      if (!resErr && json.error) resErr = json;
       if (resErr) return cb(resErr);
-      cb(null, json);
+      var val = (isFn(opts.validate))
+        ? opts.validate(json)
+        : json;
+      cb(null, val);
     });
   };
 
@@ -401,13 +402,16 @@ var supercouch = function (exports, agent) {
    * @param {Function} callback (optional)
    * @returns {Request} constructed request
    * @api public
-   * @name dbInfo
+   * @name dbExists
    */
 
   Couch.prototype.dbExists = function (name, fn) {
     var opts = merge({
-        method: 'HEAD'
-      , path: [ name ]
+        method: 'GET'
+      , path: [ '_all_dbs' ]
+      , validate: function (res) {
+          return res.indexOf(name) > -1
+        }
     }, this.reqOpts);
 
     var req = new Request(opts);
@@ -577,9 +581,11 @@ var supercouch = function (exports, agent) {
     if (isFn(body)) fn = body, body = {};
 
     var opts = merge({
-        method: 'POST'
+        method: (body._id) ? 'PUT' : 'POST'
       , body: body
     }, this.reqOpts);
+
+    if (body._id) opts.path.push(body._id);
 
     var req = new Request(opts);
     if (isFn(fn)) req.end(fn);
