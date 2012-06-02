@@ -72,6 +72,23 @@ var supercouch = function (exports, agent) {
   };
 
   /*!
+   * indexOf utility
+   *
+   * IE8 doesn't have indexOf. Defaults to "native"
+   * Array.prototype.indexOf if it exists.
+   *
+   * @ctx {Array}
+   * @param {Mixed} item to look for
+   * @param {Number} start index
+   */
+
+  var indexOf = Array.prototype.indexOf || function (obj, start) {
+     for (var i = (start || 0), j = this.length; i < j; i++)
+       if (this[i] === obj) return i;
+     return -1;
+  }
+
+  /*!
    * merge utility
    *
    * @param {Object} a
@@ -410,7 +427,7 @@ var supercouch = function (exports, agent) {
         method: 'GET'
       , path: [ '_all_dbs' ]
       , validate: function (res) {
-          return res.indexOf(name) > -1
+          return indexOf.call(res, name) > -1
         }
     }, this.reqOpts);
 
