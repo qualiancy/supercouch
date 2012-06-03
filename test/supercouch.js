@@ -132,7 +132,39 @@ describe('SuperCouch', function () {
       .get('1')
       .end(function (err, res) {
         expect(err).to.not.exist;
+        expect(res).to.have.property('foo', 'bar');
         done();
+      });
+  });
+
+  it('can update a record', function (done) {
+    // get the doc (we need the rev)
+    couch
+      .db(database)
+      .get('1')
+      .end(function (err, res) {
+        expect(err).to.not.exist;
+        expect(res).to.have.property('foo', 'bar');
+        var rev1 = res._rev;
+
+        couch
+          .db(database)
+          .update('1', rev1)
+          .send({ 'foo': 'boo' })
+          .end(function (uerr, ures) {
+            expect(uerr).to.not.exist;
+            var rev2 = ures.rev;
+
+            couch
+              .db(database)
+              .get('1')
+              .end(function (verr, vres) {
+                expect(verr).to.not.exist;
+                expect(vres).to.have.property('foo', 'boo');
+                expect(vres).to.have.property('_rev', rev2);
+                done();
+              });
+          });
       });
   });
 
