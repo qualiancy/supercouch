@@ -13,14 +13,15 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "0.4.x"
+    "superagent": "0.5.x"
   },
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
     "chai-http": "*",
-    "carbon": "0.2.x",
-    "connect": "2.2.x",
+    "carbon": "0.3.x",
+    "carbon-logger": "0.1.x",
+    "connect": "2.3.x",
     "uglify-js": "1.2.x",
     "codex": "0.2.x"
   },

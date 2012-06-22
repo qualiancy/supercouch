@@ -1,17 +1,18 @@
 var connect = require('connect')
   , carbon = require('carbon')
+  , carbonLogger = require('carbon-logger')
   , http = require('connect')
   , join = require('path').join;
 
 var proxy = carbon.listen(5000)
-  , log = carbon.logger('sc-test');
+  , log = carbonLogger('sc-test');
 
 log
-  .use(carbon.logger.console())
+  .use(carbonLogger.console())
   .start();
 
 proxy
-  .use(log.middleware())
+  .use(log.middleware)
   .use(function (req, res, next) {
     var url = req.url.split('/');
     if (url[1] === '_couchdb') {
