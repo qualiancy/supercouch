@@ -141,8 +141,37 @@ var supercouch = function (exports, agent) {
     this.reqOpts = opts;
   }
 
-  Request.prototype.send = function (opts) {
-    this.reqOpts.body = merge(opts, this.reqOpts.body);
+
+  /**
+   * ### send(obj, value)
+   *
+   * Append key/values to the JSON body being sent
+   * during `PUT` and `POST` based operations. This
+   * is usually the case of `update` commands from
+   * supercouch.
+   *
+   * Can be used to update key/value pairs...
+   *
+   *     req.send('hello', 'world');
+   *
+   * Or, as an object to be shallow-merged with the
+   * current parameters.
+   *
+   *     req.send({ hello: 'universe', scope: 'ubiquitous' });
+   *
+   * @param {String|Object} string as key or object to merge
+   * @param {Mixed} value to use if previous was a key
+   * @api public
+   * @name send
+   */
+
+  Request.prototype.send = function (opts, value) {
+    if (isObj(opts)) {
+      this.reqOpts.body = merge(opts, this.reqOpts.body || {});
+    } else {
+      if (!isObj(this.reqOpts.body)) this.reqOpts.body = {};
+      this.reqOpts.body[opts] = value;
+    }
     return this;
   };
 
