@@ -13,6 +13,7 @@
         <nav>
           <div id="installation" class="head"> <a href="#header-installation" class="scroll">Installation</a></div>
           <div id="api_basics" class="head"><a href="#header-api_basics" class="scroll">API Basics</a></div>
+          <div id="send" class="section api_basics"><a href="#api_basics-send" class="scroll">send</a></div>
           <div id="end" class="section api_basics"><a href="#api_basics-end" class="scroll">end</a></div>
           <div id="managing_couchdb" class="head"><a href="#header-managing_couchdb" class="scroll">Managing CouchDB</a></div>
           <div id="request" class="section managing_couchdb"><a href="#managing_couchdb-request" class="scroll">request</a></div>
@@ -65,6 +66,30 @@ load the <a href="https://github.com/visionmedia/superagent">SuperAgent</a> depe
           <div class="description"><p>Constructs the final request and interacest
 with superagent.
 </p>
+</div>
+        </div>
+        <div id="api_basics-send" class="segment">
+          <div class="summary"><h3>send(obj, value)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Object &#125;</span><span class="name">string</span><span class="desc">as key or object to merge</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">value</span><span class="desc">to use if previous was a key</span></li>
+          </ul>
+          <div class="description"><p>Append key/values to the JSON body being sent
+during <code>PUT</code> and <code>POST</code> based operations. This
+is usually the case of <code>update</code> commands from
+supercouch.
+
+</p>
+<p>Can be used to update key/value pairs...
+
+</p>
+<pre><code>req.send(<span class="string">'hello'</span>, <span class="string">'world'</span>);</code></pre>
+<p>Or, as an object to be shallow-merged with the
+current parameters.
+
+</p>
+<pre><code>req.send({ hello: <span class="string">'universe'</span>, scope: <span class="string">'ubiquitous'</span> });</code></pre>
 </div>
         </div>
         <div id="api_basics-end" class="segment">
@@ -253,7 +278,7 @@ a couch instance.
             <li class="tag"><span class="type">&#64;see</span><span class="type"><a href="http://wiki.apache.org/couchdb/Complete_HTTP_API_Reference" target="_blank">CouchDB API Guide</a></span>
             </li>
           </ul>
-          <div class="description"><p>Constructs a request that performs an CouchDb action
+          <div class="description"><p>Constructs a request that performs a CouchDb action
 on the currently selected database.
 
 </p>
