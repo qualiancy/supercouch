@@ -16,9 +16,12 @@ test-cov: lib-cov
 test-server:
 	@node ./support/server.js
 
-lib-cov:
-	@rm -rf lib-cov
+lib-cov: clean
 	@jscoverage lib lib-cov
+
+clean: 
+	@rm -rf lib-cov
+	@rm -f coverage.html
 
 clean-docs:
 	@rm -rf docs/out
@@ -29,4 +32,4 @@ docs: clean-docs
 	@./node_modules/.bin/codex serve \
 		-d docs/out
 
-.PHONY: all test test-cov lib-cov test-server clean-docs docs
+.PHONY: all test test-cov lib-cov test-server clean clean-docs docs
