@@ -22,8 +22,8 @@
     "carbon": "0.3.x",
     "carbon-logger": "0.1.x",
     "connect": "2.3.x",
-    "uglify-js": "1.2.x",
-    "codex": "0.2.x"
+    "codex": "0.2.x",
+    "folio": "0.3.x"
   },
   "optionalDependencies": {},
   "engines": {
