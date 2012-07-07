@@ -225,7 +225,7 @@ var supercouch = function (req) {
           , resErr = null;
 
         if (method === 'HEAD') {
-          var val = (opts.validate)
+          var val = isFn(opts.validate)
             ? opts.validate(res)
             : res.status !== 404;
           return cb(null, val);
@@ -234,10 +234,9 @@ var supercouch = function (req) {
         try { json = JSON.parse(res.text); }
         catch (ex) { resErr = ex; }
 
-        // TODO: implement custom CouchError
-        if (!resErr && json.error) resErr = json;
+        if (!resErr && json.error) resErr = new CouchError(json);
         if (resErr) return cb(resErr);
-        var val = (isFn(opts.validate))
+        var val = isFn(opts.validate)
           ? opts.validate(json)
           : json;
         cb(null, val);
@@ -794,6 +793,23 @@ var supercouch = function (req) {
       if (isFn(fn)) req.end(fn);
       return req;
     };
+
+    function CouchError (opts) {
+      opts = opts || {};
+      this.message = opts.reason || opts.message;
+      this.code = 'E' + (opts.error.toUpperCase() || 'COUCHERR');
+      this._raw = opts;
+
+      if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, arguments.callee);
+      }
+    }
+
+    CouchError.prototype = Object.create(Error.prototype);
+    CouchError.prototype.name = 'CouchError';
+    CouchError.prototype.constructor = CouchError;
+
+    exports.CouchError = CouchError;
 
     return exports;
   };
