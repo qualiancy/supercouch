@@ -9,41 +9,57 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>SuperCouch</h1>
+        <h1><a href="#top" class="scroll">SuperCouch</a></h1>
+        <div class="tagline"><p>Super duper CouchDB driver for node.js and the browser.</p>
+</div><a href="https://github.com/qualiancy/supercouch" class="fork">
+          <h2>View the Project on GitHub</h2>
+          <div class="project">qualiancy/supercouch</div></a>
         <nav>
-          <div id="installation" class="head"> <a href="#header-installation" class="scroll">Installation</a></div>
-          <div id="api_basics" class="head"><a href="#header-api_basics" class="scroll">API Basics</a></div>
-          <div id="send" class="section api_basics"><a href="#api_basics-send" class="scroll">send</a></div>
-          <div id="end" class="section api_basics"><a href="#api_basics-end" class="scroll">end</a></div>
-          <div id="managing_couchdb" class="head"><a href="#header-managing_couchdb" class="scroll">Managing CouchDB</a></div>
-          <div id="request" class="section managing_couchdb"><a href="#managing_couchdb-request" class="scroll">request</a></div>
-          <div id="action" class="section managing_couchdb"><a href="#managing_couchdb-action" class="scroll">action</a></div>
-          <div id="dbAdd" class="section managing_couchdb"><a href="#managing_couchdb-dbAdd" class="scroll">dbAdd</a></div>
-          <div id="dbInfo" class="section managing_couchdb"><a href="#managing_couchdb-dbInfo" class="scroll">dbInfo</a></div>
-          <div id="dbExists" class="section managing_couchdb"><a href="#managing_couchdb-dbExists" class="scroll">dbExists</a></div>
-          <div id="dbDel" class="section managing_couchdb"><a href="#managing_couchdb-dbDel" class="scroll">dbDel</a></div>
-          <div id="db" class="section managing_couchdb"><a href="#managing_couchdb-db" class="scroll">db</a></div>
-          <div id="databases_and_documents" class="head"><a href="#header-databases_and_documents" class="scroll">Databases and Documents</a></div>
-          <div id="action" class="section databases_and_documents"><a href="#databases_and_documents-action" class="scroll">action</a></div>
-          <div id="insert" class="section databases_and_documents"><a href="#databases_and_documents-insert" class="scroll">insert</a></div>
-          <div id="get" class="section databases_and_documents"><a href="#databases_and_documents-get" class="scroll">get</a></div>
-          <div id="update" class="section databases_and_documents"><a href="#databases_and_documents-update" class="scroll">update</a></div>
+          <div id="introduction" class="head"> <a href="#header-introduction" class="scroll">Introduction</a></div>
+          <div id="guide" class="head"><a href="#header-guide" class="scroll">Quick Start Guide</a></div>
+          <div id="installation" class="section guide"><a href="#guide-installation" class="scroll">Installation</a></div>
+          <div id="connecting" class="section guide"><a href="#guide-connecting" class="scroll">Connecting to CouchDB</a></div>
+          <div id="databases" class="section guide"><a href="#guide-databases" class="scroll">Managing Databases</a></div>
+          <div id="documents" class="section guide"><a href="#guide-documents" class="scroll">Managing Documents</a></div>
+          <div id="request_api" class="head"><a href="#header-request_api" class="scroll">Request API</a></div>
+          <div id="send" class="section request_api"><a href="#request_api-send" class="scroll">send</a></div>
+          <div id="end" class="section request_api"><a href="#request_api-end" class="scroll">end</a></div>
+          <div id="database_api" class="head"><a href="#header-database_api" class="scroll">Database API</a></div>
+          <div id="request" class="section database_api"><a href="#database_api-request" class="scroll">request</a></div>
+          <div id="action" class="section database_api"><a href="#database_api-action" class="scroll">action</a></div>
+          <div id="dbAdd" class="section database_api"><a href="#database_api-dbAdd" class="scroll">dbAdd</a></div>
+          <div id="dbInfo" class="section database_api"><a href="#database_api-dbInfo" class="scroll">dbInfo</a></div>
+          <div id="dbExists" class="section database_api"><a href="#database_api-dbExists" class="scroll">dbExists</a></div>
+          <div id="dbDel" class="section database_api"><a href="#database_api-dbDel" class="scroll">dbDel</a></div>
+          <div id="db" class="section database_api"><a href="#database_api-db" class="scroll">db</a></div>
+          <div id="document_api" class="head"><a href="#header-document_api" class="scroll">Document API</a></div>
+          <div id="action" class="section document_api"><a href="#document_api-action" class="scroll">action</a></div>
+          <div id="insert" class="section document_api"><a href="#document_api-insert" class="scroll">insert</a></div>
+          <div id="get" class="section document_api"><a href="#document_api-get" class="scroll">get</a></div>
+          <div id="update" class="section document_api"><a href="#document_api-update" class="scroll">update</a></div>
+          <div id="remove" class="section document_api"><a href="#document_api-remove" class="scroll">remove</a></div>
         </nav>
       </header>
       <section id="content">
-        <div id="header-installation" class="segment">
-          <div class="description"><blockquote>
-<p>Super duper CouchDb driver for node and the browser.
-
-</p>
-</blockquote>
-<h2>Features</h2>
+        <div id="header-introduction" class="segment">
+          <div class="para"><a href="#header-introduction">&para;</a></div>
+          <div class="description"><h4>Features</h4>
 <ul>
-<li>works for node and browser</li>
-<li>chainable api</li>
+<li>compatable with node.js and browser</li>
+<li>chainable or callback-style api</li>
 <li>based on <a href="https://github.com/visionmedia/superagent">superagent</a></li>
+<li>tiny (4.3kb minified)</li>
 </ul>
-<h2>Installation</h2>
+</div>
+        </div>
+        <div id="header-guide" class="segment">
+          <div class="para"><a href="#header-guide">&para;</a></div>
+          <div class="description"><h2>Quick Start Guide</h2>
+</div>
+        </div>
+        <div id="guide-installation" class="segment">
+          <div class="para"><a href="#guide-installation">&para;</a></div>
+          <div class="description"><h3>Installation</h3>
 <h5>Node</h5>
 <p><code>supercouch</code> package is available through <a href="http://npmjs.org">npm</a>.
 
@@ -51,36 +67,123 @@
 <pre><code class="lang-bash">npm install supercouch</code></pre>
 <h5>Browser</h5>
 <p>A commented and minified version are available in the repo. You must
-load the <a href="https://github.com/visionmedia/superagent">SuperAgent</a> dependancy prior to loading SuperCouch.
+load the <a href="https://github.com/visionmedia/superagent">SuperAgent</a> dependancy 
+prior to loading SuperCouch. Recommended SuperAgent version is <code>0.5.x</code>.
 
 </p>
 <pre><code class="lang-xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"superagent.min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"supercouch.min.js"</span>></span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>></span></code></pre>
 </div>
         </div>
-        <div id="header-api_basics" class="segment">
-          <div class="summary"><h2>The Foundation of Requests</h2>
-</div>
-          <ul class="tags">
-          </ul>
-          <div class="description"><p>Constructs the final request and interacest
-with superagent.
+        <div id="guide-connecting" class="segment">
+          <div class="para"><a href="#guide-connecting">&para;</a></div>
+          <div class="description"><h3>Connecting to CouchDB</h3>
+<p>The first level of SuperCouch&#39;s chainable API is the making a connection 
+to CouchDB. This can be done by simply invoking the primary export with
+the URL of your CouchDB installation:
+
+</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> supercouch = require(<span class="string">'supercouch'</span>)
+  , couch = supercouch(<span class="string">'http://localhost:5984'</span>);</code></pre>
+<p>Now, all requests using the <code>couch</code> variable will be directed to that URL.,
+
 </p>
 </div>
         </div>
-        <div id="api_basics-send" class="segment">
-          <div class="summary"><h3>send(obj, value)</h3>
+        <div id="guide-databases" class="segment">
+          <div class="para"><a href="#guide-databases">&para;</a></div>
+          <div class="description"><h3>Managing Databases</h3>
+<p>With the <code>couch</code> variable you can easily manage creating, updating, deleting and 
+invoking actions upon specific databases. All methods (less the <code>db</code> modifier will
+return an instance of a <code>Request</code> that can be <code>end</code>ed to make the request. Alternatively,
+if you prefer to use SuperCouch in aj less chainable fashion, you may provide a callback
+to make the request immediately. The following two examples are equivalant.
+
+</p>
+<h5>Chaining</h5>
+<pre><code class="lang-javascript">couch
+  .dbExists(<span class="string">'supercouch'</span>)
+  .end(<span class="function"><span class="keyword">function</span> <span class="params">(err, res)</span> {</span>
+    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err; <span class="comment">// instanceof supercouch.CouchError</span>
+    console.log(res); <span class="comment">// true or false</span>
+  });</code></pre>
+<h5>Callback</h5>
+<pre><code class="lang-javascript">couch.dbExists(<span class="string">'supercouch'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, res)</span> {</span>
+  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err; <span class="comment">// instanceof supercouch.CouchError</span>
+  console.log(res); <span class="comment">// true or false</span>
+});</code></pre>
+<p>All methods that return an actual <code>Request</code> can be used in either manner. See the API 
+docs for further information. For consistency, the remainder of this documentation will
+be presented using the chaining method.
+</p>
+</div>
+        </div>
+        <div id="guide-documents" class="segment">
+          <div class="para"><a href="#guide-documents">&para;</a></div>
+          <div class="description"><h3>Managing Documents</h3>
+<p>For managing documents, all you have to do is select the database for which you wish
+to work with. 
+
+</p>
+<pre><code class="lang-javascript">couch
+  .db(<span class="string">'supercouch'</span>)
+  .insert({ _id: <span class="string">'abc'</span>, foo: <span class="string">'bar'</span> })
+  .end(<span class="function"><span class="keyword">function</span> <span class="params">(err, res)</span> {</span>
+    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err; <span class="comment">// instanceof supercouch.CouchError</span>
+    console.log(res.ok); <span class="comment">// true if successful</span>
+  });</code></pre>
+<p>The <code>_id</code> option is optional. SuperCouch will transparently handle the appropriate
+request methodology to ensure your insert sticks. You may also store a reference to
+a specific database if you are performing multiple actions:
+
+</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> scdb = couch.db(<span class="string">'supercouch'</span>);
+
+scdb
+  .insert({ foo: <span class="string">'bar'</span> })
+  .end(cb);
+
+scdb
+  .insert({ foo: <span class="string">'baz'</span> })
+  .end(cb);</code></pre>
+<p>There are a number a variations for each method. Consult to the API documentation below
+to find a suitable style.
+</p>
+</div>
+        </div>
+        <div id="header-request_api" class="segment">
+          <div class="para"><a href="#header-request_api">&para;</a></div>
+          <div class="summary"><h2>Request API</h2>
+</div>
+          <ul class="tags">
+          </ul>
+          <div class="description"><p>Requests are the last part of any of the chainable
+methods. Providing API access to the Request API
+allows for a way to directly manipulate and initialize
+the request.
+
+</p>
+<p>Further API documentation will note when a method
+<strong>returns a Request</strong>. You can also initialize custom
+requests using the <code>.request</code> method of the Database API.
+</p>
+</div>
+        </div>
+        <div id="request_api-send" class="segment">
+          <div class="para"><a href="#request_api-send">&para;</a></div>
+          <div class="summary"><h3>.send (obj[, value])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Object &#125;</span><span class="name">string</span><span class="desc">as key or object to merge</span></li>
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">value</span><span class="desc">to use if previous was a key</span></li>
           </ul>
-          <div class="description"><p>Append key/values to the JSON body being sent
+          <div class="description"><p>Modify key/values to the JSON body being sent
 during <code>PUT</code> and <code>POST</code> based operations. This
-is usually the case of <code>update</code> commands from
-supercouch.
+is usually the case of <code>insert</code> or <code>update</code> commands
+from supercouch.
 
 </p>
+<pre><code><span class="keyword">var</span> req = couch.request(<span class="string">'post'</span>, <span class="string">'/mydb/abc'</span>);</code></pre>
 <p>Can be used to update key/value pairs...
 
 </p>
@@ -92,34 +195,47 @@ current parameters.
 <pre><code>req.send({ hello: <span class="string">'universe'</span>, scope: <span class="string">'ubiquitous'</span> });</code></pre>
 </div>
         </div>
-        <div id="api_basics-end" class="segment">
-          <div class="summary"><h3>end(callback);</h3>
+        <div id="request_api-end" class="segment">
+          <div class="para"><a href="#request_api-end">&para;</a></div>
+          <div class="summary"><h3>.end (callback);</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc"></span></li>
           </ul>
-          <div class="description"><p>Contructs all the given parameters
-in a request, sends reqest to superagent,
-parses results, and sends appropriate values
-back to callback
+          <div class="description"><p>Interprets all the given parameters into a request,
+sends reqest to superagent, parses results, and sends
+appropriate values back to callback.
+
 </p>
+<p>If an error occurs on the CouchDB side of an operation,
+the results will be constructed into a <code>supercouch.CouchError</code>,
+which is an instance of a javascript <code>Error</code>.
+
+</p>
+<pre><code>req.end(<span class="function"><span class="keyword">function</span> <span class="params">(err, res)</span> {</span>
+  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err; <span class="comment">// likely instanceof CouchError</span>
+  console.log(res); <span class="comment">// json of CouchDB response</span>
+});</code></pre>
 </div>
         </div>
-        <div id="header-managing_couchdb" class="segment">
-          <div class="summary"><h2>Managing CouchDB Services &amp; Databases</h2>
+        <div id="header-database_api" class="segment">
+          <div class="para"><a href="#header-database_api">&para;</a></div>
+          <div class="summary"><h2>Database API</h2>
 </div>
           <ul class="tags">
           </ul>
-          <div class="description"><p>The first exposed object in the chainable
-API. Exposes methods to interact on with
-server level events. Also, some methods
-will construct Requests, while others will
+          <div class="description"><p>After you have specified your CouchDB url, the
+next level in the chainable API is the <code>Database
+API</code>. It exposes methods to interact with
+server and database level events. Note that some
+methods  will construct Requests, while others will
 construct the next level chainable objects.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-request" class="segment">
-          <div class="summary"><h3>request(method, url[, callback])</h3>
+        <div id="database_api-request" class="segment">
+          <div class="para"><a href="#database_api-request">&para;</a></div>
+          <div class="summary"><h3>.request (method, url[, callback])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">method</span><span class="desc"></span></li>
@@ -132,12 +248,13 @@ not be included in the chainable api.
 
 </p>
 <p>Providing a callback will immediately execute
-the request.
+the request. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-action" class="segment">
-          <div class="summary"><h3>action(name[, body[, callback]])</h3>
+        <div id="database_api-action" class="segment">
+          <div class="para"><a href="#database_api-action">&para;</a></div>
+          <div class="summary"><h3>.action (name[, body[, callback]])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">command</span><span class="desc">name</span></li>
@@ -155,7 +272,7 @@ an error will be thrown.
   .action(<span class="string">'all dbs'</span>)
   .end(db);</code></pre>
 <p>Proving a callback will immediately execute the
-request to the server.
+request. <strong>Returns a Request</strong>.
 
 </p>
 <h5>Actions</h5>
@@ -170,8 +287,9 @@ request to the server.
 </ul>
 </div>
         </div>
-        <div id="managing_couchdb-dbAdd" class="segment">
-          <div class="summary"><h3>dbAdd(name[, fn])</h3>
+        <div id="database_api-dbAdd" class="segment">
+          <div class="para"><a href="#database_api-dbAdd">&para;</a></div>
+          <div class="summary"><h3>.dbAdd (name[, fn])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
@@ -185,12 +303,13 @@ to the CouchDb server.
   .dbAdd(<span class="string">'my_app'</span>)
   .end(cb);</code></pre>
 <p>Providing a callback will immediately execute
-the request.
+the request. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-dbInfo" class="segment">
-          <div class="summary"><h3>dbInfo(name[, fn])</h3>
+        <div id="database_api-dbInfo" class="segment">
+          <div class="para"><a href="#database_api-dbInfo">&para;</a></div>
+          <div class="summary"><h3>.dbInfo (name[, fn])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
@@ -204,12 +323,13 @@ about a database in the CouchDb server.
   .dbInfo(<span class="string">'my_app'</span>)
   .end(cb);</code></pre>
 <p>Providing a callback will immediately execute
-the request.
+the request. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-dbExists" class="segment">
-          <div class="summary"><h3>dbExists(name[, fn])</h3>
+        <div id="database_api-dbExists" class="segment">
+          <div class="para"><a href="#database_api-dbExists">&para;</a></div>
+          <div class="summary"><h3>.dbExists (name[, fn])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
@@ -223,12 +343,13 @@ database exists.
   .dbExists(<span class="string">'my_app'</span>)
   .end(cb);</code></pre>
 <p>Providing a callback will immediately execute
-the request.
+the request. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-dbDel" class="segment">
-          <div class="summary"><h3>dbDel(name[, fn])</h3>
+        <div id="database_api-dbDel" class="segment">
+          <div class="para"><a href="#database_api-dbDel">&para;</a></div>
+          <div class="summary"><h3>.dbDel (name[, fn])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
@@ -242,34 +363,39 @@ to the CouchDb server.
   .dbDel(<span class="string">'my_app'</span>)
   .end(cb);</code></pre>
 <p>Providing a callback will immediately execute
-the request.
+the request. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="managing_couchdb-db" class="segment">
-          <div class="summary"><h3>db(name)</h3>
+        <div id="database_api-db" class="segment">
+          <div class="para"><a href="#database_api-db">&para;</a></div>
+          <div class="summary"><h3>.db (name)</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">db</span><span class="desc">name</span></li>
           </ul>
           <div class="description"><p>Contructs a Db interface for chaining actions
-on a specific database.
+on a specific database. See the <code>Document API</code>.
+
 </p>
+<pre><code><span class="keyword">var</span> mydb = couch.db(<span class="string">'mydb'</span>);</code></pre>
 </div>
         </div>
-        <div id="header-databases_and_documents" class="segment">
-          <div class="summary"><h2>Working with Specific Databases &amp; Documents</h2>
+        <div id="header-document_api" class="segment">
+          <div class="para"><a href="#header-document_api">&para;</a></div>
+          <div class="summary"><h2>Document API</h2>
 </div>
           <ul class="tags">
           </ul>
           <div class="description"><p>Provides chainable API for requests to a specific db.
 Constructed when <code>.db(&#39;name&#39;)</code> method is performed on
-a couch instance.
+a database instance.
 </p>
 </div>
         </div>
-        <div id="databases_and_documents-action" class="segment">
-          <div class="summary"><h3>action(name[, body[, callback]])</h3>
+        <div id="document_api-action" class="segment">
+          <div class="para"><a href="#document_api-action">&para;</a></div>
+          <div class="summary"><h3>.action (name[, body[, callback]])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">command</span><span class="desc">name</span></li>
@@ -287,7 +413,7 @@ be thrown.
 
 </p>
 <p>Proving a callback will immediately execute the
-request to the server.
+request to the server. <strong>Returns a Request</strong>.
 
 </p>
 <h5>Actions</h5>
@@ -299,10 +425,23 @@ request to the server.
 <li><code>ensure full commit</code> - post instructing the db commit all changes to disk</li>
 <li><code>purge</code> - post instructing the db to purge history docs from db history</li>
 </ul>
+<p>Here is very simple <code>map</code> temporary view example.
+
+</p>
+<pre><code>couch
+  .db(<span class="string">'mydb'</span>)
+  .action(<span class="string">'temp view'</span>)
+  .send({
+    map: <span class="function"><span class="keyword">function</span> <span class="params">(doc)</span> {</span>
+      emit(doc._id, doc);
+    }
+  })
+  .end(cb);</code></pre>
 </div>
         </div>
-        <div id="databases_and_documents-insert" class="segment">
-          <div class="summary"><h3>insert(doc[, callback])</h3>
+        <div id="document_api-insert" class="segment">
+          <div class="para"><a href="#document_api-insert">&para;</a></div>
+          <div class="summary"><h3>.insert (doc[, callback])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">document</span><span class="desc"></span></li>
@@ -326,12 +465,13 @@ using the requests <code>send</code>  command in the chainable api.
   .send(docObj)
   .end(cb);</code></pre>
 <p>If a callback is provided will execute the
-insert request immediately.
+insert request immediately. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="databases_and_documents-get" class="segment">
-          <div class="summary"><h3>get(id[, rev[, callback])</h3>
+        <div id="document_api-get" class="segment">
+          <div class="para"><a href="#document_api-get">&para;</a></div>
+          <div class="summary"><h3>.get (id[, rev[, callback])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">document</span><span class="desc">id</span></li>
@@ -356,12 +496,13 @@ using the requests <code>qs</code> method.
   .qs(<span class="string">'rev'</span>, <span class="string">'rev123'</span>)
   .end(cb);</code></pre>
 <p>If a callback is provided will execute the
-insert request immediately.
+insert request immediately. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
-        <div id="databases_and_documents-update" class="segment">
-          <div class="summary"><h3>update([id[, rev[, doc[, callback]]]])</h3>
+        <div id="document_api-update" class="segment">
+          <div class="para"><a href="#document_api-update">&para;</a></div>
+          <div class="summary"><h3>.update ([id[, rev[, doc[, callback]]]])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">document</span><span class="desc">id</span></li>
@@ -403,13 +544,30 @@ the requests <code>send</code> method.
   })
   .end(cb);</code></pre>
 <p>If a callback is provided will execute the
-insert request immediately.
+insert request immediately. <strong>Returns a Request</strong>.
 </p>
 </div>
         </div>
+        <div id="document_api-remove" class="segment">
+          <div class="para"><a href="#document_api-remove">&para;</a></div>
+          <div class="summary"><h3>.remove (id, rev[, callback])</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">document</span><span class="desc">id</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">document</span><span class="desc">revision</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">optional</span><span class="desc">callback</span></li>
+          </ul>
+          <div class="description"><p>Remove a document from the selected database.
+A revision is required per CouchDB specifications.
+
+</p>
+<p>If a callback is provided will execute the
+insert request immediately. <strong>Returns a Request</strong>.
+</p>
+</div>
+        </div>
+        <footer><a href="http://qualiancy.com" class="qual"><img src="http://qualiancy.com/img/qualiancy-logo.png" class="qlogo"></a></footer>
       </section>
-      <footer>
-      </footer>
     </div>
   </body>
 </html>

@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700");
-@import url("http://fonts.googleapis.com/css?family=Oxygen");
+@import url("https://fonts.googleapis.com/css?family=Oxygen");
 html,
 body,
 div,
@@ -138,36 +138,88 @@ body {
   font: 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   padding: 50px;
-  color: #777;
+  background-color: #fff;
+  background-image: url("../img/bg.png");
+  background-attachment: fixed;
+  color: #333;
 }
 h1,
 h2 {
-  font-family: Oxygen, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Oxygen', sans-serif;
+  color: #333;
+}
+h1 a,
+h2 a {
+  color: #333;
 }
 h2 {
   margin-top: 30px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #333;
+  color: #333;
 }
-h1,
-h2,
+h3,
 h4,
 h5,
 h6 {
-  color: #222;
-  font-weight: bold;
+  color: #333;
 }
 h3 {
-  color: #39c;
+  color: #285f62;
+  font-weight: bold;
 }
 a {
-  color: #c30;
+  color: #f00;
   text-decoration: none;
+}
+a.fork {
+  display: block;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff3c15), color-stop(1, #fa2a00));
+  background: -webkit-linear-gradient(top, #ff3c15 0%, #fa2a00 100%);
+  background: -moz-linear-gradient(top, #ff3c15 0%, #fa2a00 100%);
+  background: -o-linear-gradient(top, #ff3c15 0%, #fa2a00 100%);
+  background: -ms-linear-gradient(top, #ff3c15 0%, #fa2a00 100%);
+  background: linear-gradient(top, #ff3c15 0%, #fa2a00 100%);
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  border: 1px solid #c82200;
+  color: #fff;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  text-shadow: 1px 1px 0px #af1d00;
+}
+a.fork:hover {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff522f), color-stop(1, #ff3c15));
+  background: -webkit-linear-gradient(top, #ff522f 0%, #ff3c15 100%);
+  background: -moz-linear-gradient(top, #ff522f 0%, #ff3c15 100%);
+  background: -o-linear-gradient(top, #ff522f 0%, #ff3c15 100%);
+  background: -ms-linear-gradient(top, #ff522f 0%, #ff3c15 100%);
+  background: linear-gradient(top, #ff522f 0%, #ff3c15 100%);
+}
+a.fork h2 {
+  border-bottom: 0px;
+  margin: 0px;
+  color: #fff;
+  padding: 0px;
+}
+a.fork .project {
+  font-size: 16px;
+}
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
 }
 code,
 pre {
-  font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color: #333;
+  font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;
+  color: #666;
   font-size: 12px;
 }
 ul {
@@ -177,13 +229,29 @@ ul {
 }
 pre {
   padding: 8px 15px;
+  overflow-x: auto;
+  background: #fff;
+  margin-bottom: 1.5em;
+  border: 1px solid #e0e0e0;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  overflow-x: auto;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  margin-bottom: 1.5em;
+}
+.segment {
+  margin-bottom: 60px;
+  position: relative;
+}
+.segment .para {
+  position: absolute;
+  left: -20px;
+  font-size: 14px;
+  width: 20px;
+  display: none;
+  opacity: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+.segment .para a {
+  color: #f00;
 }
 ul.tags {
   font-size: 12px;
@@ -209,6 +277,7 @@ header {
 }
 section#content {
   width: 500px;
+  padding-top: 65px;
   float: right;
 }
 nav {
@@ -221,15 +290,17 @@ nav .section {
   display: none;
 }
 nav .head > a {
-  color: #222;
+  color: #333;
 }
 nav .section > a {
-  color: #39c;
+  color: #f00;
 }
-footer {
-  width: 270px;
-  position: fixed;
-  bottom: 50px;
+footer a.qual {
+  display: block;
+}
+footer a.qual .qlogo {
+  display: block;
+  margin: 100px auto;
 }
 pre code {
   display: block;

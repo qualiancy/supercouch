@@ -1,7 +1,13 @@
 {
-  "locals": {
-    "title": "SuperCouch"
-  }
+    "locals": {
+        "title": "SuperCouch"
+      , "googleanalytics": ""
+      , "mixpanel": ""
+      , "ghuser": "qualiancy"
+      , "ghbaseurl": ""
+      , "ghproject": "supercouch"
+      , "description": "Super duper CouchDB driver for node.js and the browser."
+    }
 
   , "plugins": [
     { "name": "code"
