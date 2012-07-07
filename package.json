@@ -16,14 +16,15 @@
     "superagent": "0.5.x"
   },
   "devDependencies": {
-    "mocha": "*",
     "chai": "*",
     "chai-http": "*",
     "carbon": "0.3.x",
     "carbon-logger": "0.1.x",
     "connect": "2.3.x",
     "codex": "0.2.x",
-    "folio": "0.3.x"
+    "folio": "0.3.x",
+    "mocha": "*",
+    "send": "0.0.x"
   },
   "optionalDependencies": {},
   "engines": {
