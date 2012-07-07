@@ -24,7 +24,6 @@
     "codex": "0.2.x",
     "folio": "0.3.x",
     "mocha": "*",
-    "send": "0.0.x"
   },
   "optionalDependencies": {},
   "engines": {

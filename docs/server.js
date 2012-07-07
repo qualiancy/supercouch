@@ -1,12 +1,13 @@
 var http = require('http')
-  , join = require('path').join
-  , send = require('send');
+  , connect = require('connect')
+  , join = require('path').join;
 
-var server = http.createServer(function(req, res){
-  send(req.url)
-    .root(join(__dirname, 'out'))
-    .pipe(res);
-});
+var app = connect();
+
+app.use(connect.staticCache());
+app.use(connect.static(join(__dirname, 'out')));
+
+var server = module.exports = http.createServer(app);
 
 if (require.main == module) {
   server.listen(3441);
