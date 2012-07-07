@@ -12,11 +12,7 @@ Tests are written in the BDD styles for the [Mocha](http://visionmedia.github.co
 
 #### Preperation
 
-First, make sure that you have the following forward set up in your `/etc/hosts`
-
-    127.0.0.1  local.host
-
-Then start the test server. This will allow you test both the server and browser versions simultaneously.
+You will need to start the test server. This will allow you test both the server and browser versions simultaneously.
 
     make test-server
 
@@ -32,7 +28,7 @@ To run the browser side tests, first make the most recent version:
 
     make 
 
-Then point your browser to [http://local.host:5000/test/browser/](http://local.host:5000/test/browser/).
+Then point your browser to [http://localhost:5000/test/browser/](http://localhost:5000/test/browser/).
 
 ## License
 

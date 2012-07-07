@@ -45,7 +45,7 @@ describe('SuperCouch', function () {
   };
 
   before(function () {
-    couch = supercouch('http://local.host:5000/_couchdb');
+    couch = supercouch('http://localhost:5000/_couchdb');
   });
 
   beforeEach(function (done) {
