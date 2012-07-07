@@ -9,6 +9,8 @@
 - based on [superagent](https://github.com/visionmedia/superagent)
 - tiny (4.3kb minified)
 
+For full usage and API documentation, view the [documentation](http://supercou.ch/).
+
 #### Contributors
 
 Interested in contributing? Fork to get started. Contact [@logicalparadox](http://github.com/logicalparadox) 
