@@ -168,6 +168,31 @@ describe('SuperCouch', function () {
       });
   });
 
+  it('can remove a record', function (done) {
+    couch
+      .db(database)
+      .get('1')
+      .end(function (err, res) {
+        expect(err, 'GET').to.not.exist;
+        var rev1 = res._rev;
+
+        couch
+          .db(database)
+          .remove('1', rev1)
+          .end(function (err, res) {
+            expect(err, 'DELETE').to.not.exist;
+
+            couch
+              .db(database)
+              .get('1', rev1)
+              .end(function (err, res) {
+                expect(err, 'CONFIRM').to.not.exist;
+                done();
+              });
+          });
+      });
+  });
+
   describe('db existance', function() {
 
     it('can tell if a db exists', function (done) {
