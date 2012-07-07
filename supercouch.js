@@ -205,7 +205,20 @@ var supercouch = function (req) {
       else if ('HEAD' === method) req = agent.head(url);
       else return cb(new Error('Unsuppored request method'));
 
-      if (opts.body) req.send(opts.body);
+      // convert map/reduce functions to strings
+      if (opts.body) {
+        var map = opts.body.map
+          , reduce = opts.body.reduce;
+        if (isFn(map)) opts.body.map = '' + map;
+        if (isFn(reduce)) opts.body.reduce = '' + reduce;
+        req.send(opts.body);
+      }
+
+      if (opts.qs) {
+        for (var i = 0, l = opts.qs.length; i < l; i++) {
+          req.query(opts.qs[i]);
+        }
+      }
 
       req.end(function makeRequest (res) {
         var json
@@ -749,6 +762,33 @@ var supercouch = function (req) {
       opts.path.push(id);
       opts.body._id = id;
       if (rev) opts.body._rev = rev;
+
+      var req = new Request(opts);
+      if (isFn(fn)) req.end(fn);
+      return req;
+    };
+
+    /**
+     * ### .remove(id, rev[, callback])
+     *
+     * Remove a document from the selected database.
+     * A revision is required per CouchDB specifics.
+     * @param {Mixed} document id
+     * @param {String} document revision
+     * @param {Function} optional callback
+     * @name remove
+     * @api public
+     */
+
+    Db.prototype.remove = function (id, rev, fn) {
+      if (isFn(rev)) fn = rev, rev = null;
+
+      var opts = merge({
+          method: 'DELETE'
+      }, this.reqOpts);
+
+      opts.path.push(id);
+      if (rev) opts.qs = [ { rev: rev } ];
 
       var req = new Request(opts);
       if (isFn(fn)) req.end(fn);
