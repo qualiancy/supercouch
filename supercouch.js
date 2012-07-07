@@ -5,9 +5,6 @@ var supercouch = function (req) {
    * SuperCouch
    * Copyright (c) 2012 Jake Luer <jake@qualiancy.com>
    * MIT Licensed
-   *
-   * @website http://supercou.ch
-   * @issues https://github.com/qualiancy/supercouch/issues
    */
 
   /*!
@@ -17,7 +14,7 @@ var supercouch = function (req) {
   module.exports = function (agent) {
 
     /*!
-     * Main Export
+     * Main Export (factory)
      */
 
     var exports = function (address) {
@@ -28,7 +25,7 @@ var supercouch = function (req) {
      * SupeCouch version
      */
 
-    exports.version = '0.0.0';
+    exports.version = '0.1.0';
 
     /*!
      * toString utility
@@ -86,8 +83,10 @@ var supercouch = function (req) {
      */
 
     var indexOf = Array.prototype.indexOf || function (obj, start) {
-       for (var i = (start || 0), j = this.length; i < j; i++)
+       for (var i = (start || 0), j = this.length; i < j; i++) {
          if (this[i] === obj) return i;
+       }
+
        return -1;
     }
 
@@ -126,12 +125,18 @@ var supercouch = function (req) {
     }
 
     /**
-     * ## The Foundation of Requests
+     * ## Request API
      *
-     * Constructs the final request and interacest
-     * with superagent.
+     * Requests are the last part of any of the chainable
+     * methods. Providing API access to the Request API
+     * allows for a way to directly manipulate and initialize
+     * the request.
      *
-     * @header API Basics
+     * Further API documentation will note when a method
+     * **returns a Request**. You can also initialize custom
+     * requests using the `.request` method of the Database API.
+     *
+     * @header Request API
      */
 
     function Request (opts) {
@@ -144,14 +149,15 @@ var supercouch = function (req) {
       this.reqOpts = opts;
     }
 
-
     /**
-     * ### send(obj, value)
+     * ### .send (obj[, value])
      *
-     * Append key/values to the JSON body being sent
+     * Modify key/values to the JSON body being sent
      * during `PUT` and `POST` based operations. This
-     * is usually the case of `update` commands from
-     * supercouch.
+     * is usually the case of `insert` or `update` commands
+     * from supercouch.
+     *
+     *     var req = couch.request('post', '/mydb/abc');
      *
      * Can be used to update key/value pairs...
      *
@@ -179,12 +185,20 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### end(callback);
+     * ### .end (callback);
      *
-     * Contructs all the given parameters
-     * in a request, sends reqest to superagent,
-     * parses results, and sends appropriate values
-     * back to callback
+     * Interprets all the given parameters into a request,
+     * sends reqest to superagent, parses results, and sends
+     * appropriate values back to callback.
+     *
+     * If an error occurs on the CouchDB side of an operation,
+     * the results will be constructed into a `supercouch.CouchError`,
+     * which is an instance of a javascript `Error`.
+     *
+     *     req.end(function (err, res) {
+     *       if (err) throw err; // likely instanceof CouchError
+     *       console.log(res); // json of CouchDB response
+     *     });
      *
      * @param {Function} callback
      * @api public
@@ -270,15 +284,16 @@ var supercouch = function (req) {
     }
 
     /**
-     * ## Managing CouchDB Services & Databases
+     * ## Database API
      *
-     * The first exposed object in the chainable
-     * API. Exposes methods to interact on with
-     * server level events. Also, some methods
-     * will construct Requests, while others will
+     * After you have specified your CouchDB url, the
+     * next level in the chainable API is the `Database
+     * API`. It exposes methods to interact with
+     * server and database level events. Note that some
+     * methods  will construct Requests, while others will
      * construct the next level chainable objects.
      *
-     * @header Managing CouchDB
+     * @header Database API
      */
 
     function Couch (address, opts) {
@@ -300,14 +315,14 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### request(method, url[, callback])
+     * ### .request (method, url[, callback])
      *
      * Helper method to directly create Requests
      * to the server. Useful for any urls that might
      * not be included in the chainable api.
      *
      * Providing a callback will immediately execute
-     * the request.
+     * the request. **Returns a Request**.
      *
      * @param {String} method
      * @param {String} url
@@ -329,7 +344,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### action(name[, body[, callback]])
+     * ### .action (name[, body[, callback]])
      *
      * Constructs a request that performs an CouchDb action
      * on the server. If the name of the action is not valid
@@ -340,7 +355,7 @@ var supercouch = function (req) {
      *       .end(db);
      *
      * Proving a callback will immediately execute the
-     * request to the server.
+     * request. **Returns a Request**.
      *
      * ##### Actions
      *
@@ -390,7 +405,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### dbAdd(name[, fn])
+     * ### .dbAdd (name[, fn])
      *
      * Constructs a request that will add a database
      * to the CouchDb server.
@@ -400,7 +415,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * Providing a callback will immediately execute
-     * the request.
+     * the request. **Returns a Request**.
      *
      * @param {String} db name
      * @param {Function} callback (optional)
@@ -421,7 +436,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### dbInfo(name[, fn])
+     * ### .dbInfo (name[, fn])
      *
      * Constructs a request that will get the information
      * about a database in the CouchDb server.
@@ -431,7 +446,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * Providing a callback will immediately execute
-     * the request.
+     * the request. **Returns a Request**.
      *
      * @param {String} db name
      * @param {Function} callback (optional)
@@ -452,7 +467,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### dbExists(name[, fn])
+     * ### .dbExists (name[, fn])
      *
      * Constructs a request that will check if
      * database exists.
@@ -462,7 +477,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * Providing a callback will immediately execute
-     * the request.
+     * the request. **Returns a Request**.
      *
      * @param {String} db name
      * @param {Function} callback (optional)
@@ -486,7 +501,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### dbDel(name[, fn])
+     * ### .dbDel (name[, fn])
      *
      * Constructs a request that will remove a database
      * to the CouchDb server.
@@ -496,7 +511,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * Providing a callback will immediately execute
-     * the request.
+     * the request. **Returns a Request**.
      *
      * @param {String} db name
      * @param {Function} callback (optional)
@@ -517,10 +532,12 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### db(name)
+     * ### .db (name)
      *
      * Contructs a Db interface for chaining actions
-     * on a specific database.
+     * on a specific database. See the `Document API`.
+     *
+     *     var mydb = couch.db('mydb');
      *
      * @param {String} db name
      * @returns {Db} constructed db chain api
@@ -539,13 +556,13 @@ var supercouch = function (req) {
 
 
     /**
-     * ## Working with Specific Databases & Documents
+     * ## Document API
      *
      * Provides chainable API for requests to a specific db.
      * Constructed when `.db('name')` method is performed on
-     * a couch instance.
+     * a database instance.
      *
-     * @header Databases and Documents
+     * @header Document API
      */
 
     function Db (opts) {
@@ -558,7 +575,7 @@ var supercouch = function (req) {
     }
 
     /**
-     * ### action(name[, body[, callback]])
+     * ### .action (name[, body[, callback]])
      *
      * Constructs a request that performs a CouchDb action
      * on the currently selected database.
@@ -567,7 +584,7 @@ var supercouch = function (req) {
      * be thrown.
      *
      * Proving a callback will immediately execute the
-     * request to the server.
+     * request to the server. **Returns a Request**.
      *
      * ##### Actions
      *
@@ -577,6 +594,18 @@ var supercouch = function (req) {
      * - `temp view` - post instructing the db to execute view function (admin privileges)
      * - `ensure full commit` - post instructing the db commit all changes to disk
      * - `purge` - post instructing the db to purge history docs from db history
+     *
+     * Here is very simple `map` temporary view example.
+     *
+     *     couch
+     *       .db('mydb')
+     *       .action('temp view')
+     *       .send({
+     *         map: function (doc) {
+     *           emit(doc._id, doc);
+     *         }
+     *       })
+     *       .end(cb);
      *
      * @param {String} command name
      * @param {Object} body for post commands
@@ -615,7 +644,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### insert(doc[, callback])
+     * ### .insert (doc[, callback])
      *
      * Inserts a new document to the currently
      * selected database.
@@ -635,7 +664,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * If a callback is provided will execute the
-     * insert request immediately.
+     * insert request immediately. **Returns a Request**.
      *
      * @param {Object} document
      * @param {Function} optional callback
@@ -659,7 +688,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### get(id[, rev[, callback])
+     * ### .get (id[, rev[, callback])
      *
      * Retrieves a document, optionally at a specific
      * revision, from the currently selected database.
@@ -679,7 +708,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * If a callback is provided will execute the
-     * insert request immediately.
+     * insert request immediately. **Returns a Request**.
      *
      * @param {Mixed} document id
      * @param {String} document revision
@@ -704,7 +733,7 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### update([id[, rev[, doc[, callback]]]])
+     * ### .update ([id[, rev[, doc[, callback]]]])
      *
      * Updates a document, optionally at a specific
      * revision, to the provided document object,
@@ -741,7 +770,7 @@ var supercouch = function (req) {
      *       .end(cb);
      *
      * If a callback is provided will execute the
-     * insert request immediately.
+     * insert request immediately. **Returns a Request**.
      *
      * @param {Mixed} document id
      * @param {String} document revision
@@ -768,10 +797,14 @@ var supercouch = function (req) {
     };
 
     /**
-     * ### .remove(id, rev[, callback])
+     * ### .remove (id, rev[, callback])
      *
      * Remove a document from the selected database.
-     * A revision is required per CouchDB specifics.
+     * A revision is required per CouchDB specifications.
+     *
+     * If a callback is provided will execute the
+     * insert request immediately. **Returns a Request**.
+     *
      * @param {Mixed} document id
      * @param {String} document revision
      * @param {Function} optional callback
@@ -794,6 +827,17 @@ var supercouch = function (req) {
       return req;
     };
 
+    /*!
+     * CouchError (opts)
+     *
+     * Takes a JSON error response from CouchDB and constructes
+     * a javascript compatible Error Object.
+     *
+     * @param {Object} options
+     * @returns Error
+     * @api public-ish
+     */
+
     function CouchError (opts) {
       opts = opts || {};
       this.message = opts.reason || opts.message;
@@ -805,12 +849,15 @@ var supercouch = function (req) {
       }
     }
 
+    // Ensure inheritance from javascript Error
     CouchError.prototype = Object.create(Error.prototype);
     CouchError.prototype.name = 'CouchError';
     CouchError.prototype.constructor = CouchError;
 
+    // provide as part of export for instanceof checking
     exports.CouchError = CouchError;
 
+    // return exports factory and helpers
     return exports;
   };
 
