@@ -38,6 +38,7 @@
           <div id="get" class="section document_api"><a href="#document_api-get" class="scroll">get</a></div>
           <div id="update" class="section document_api"><a href="#document_api-update" class="scroll">update</a></div>
           <div id="remove" class="section document_api"><a href="#document_api-remove" class="scroll">remove</a></div>
+          <div id="resources" class="head"><a href="#header-resources" class="scroll">Resources</a></div>
         </nav>
       </header>
       <section id="content">
@@ -563,6 +564,38 @@ A revision is required per CouchDB specifications.
 </p>
 <p>If a callback is provided will execute the
 insert request immediately. <strong>Returns a Request</strong>.
+</p>
+</div>
+        </div>
+        <div id="header-resources" class="segment">
+          <div class="para"><a href="#header-resources">&para;</a></div>
+          <div class="description"><h2>Resources</h2>
+<h3>Tests</h3>
+<p>Tests are written in the BDD styles for the <a href="http://visionmedia.github.com/mocha">Mocha</a> test runner using the
+<code>expect</code> assertion interface from <a href="http://chaijs.com">Chai</a>. Running tests is simple:
+
+</p>
+<h4>Preperation</h4>
+<p>You will need to start the test server. This will allow you test both the server and browser versions simultaneously.
+You will also need a CouchDB server running locally using the default configuration.
+
+</p>
+<pre><code>make test-server</code></pre>
+<h5>Server Tests</h5>
+<p>To run the server side tests:
+
+</p>
+<pre><code>make test</code></pre>
+<h5>Browser Tests</h5>
+<p>To run the browser side tests, first make the most recent version of the browser build.
+
+</p>
+<pre><code>make </code></pre>
+<p>Then point your browser to <a href="http://localhost:5000/test/browser/"><a href="http://localhost:5000/test/browser/">http://localhost:5000/test/browser/</a></a>.
+
+</p>
+<h3>License</h3>
+<p>(The MIT License)
 </p>
 </div>
         </div>

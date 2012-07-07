@@ -1,36 +1,43 @@
 # SuperCouch
 
-> A super duper CouchDB driver for node and the browser.
+> A super duper CouchDB driver for node.js and the browser.
 
-Please view the documenation by cloning this repo, installing dependancies, and running `make docs`. You
-will find them served to [localhost:1227](http://localhost:1227).
+#### Features
 
-## Tests
+- compatable with node.js and browser
+- chainable or callback-style api
+- based on [superagent](https://github.com/visionmedia/superagent)
+- tiny (4.3kb minified)
 
-Tests are written in the BDD styles for the [Mocha](http://visionmedia.github.com/mocha) test runner using the
-`expect` assertion interface from [Chai](http://chaijs.com). Running tests is simple:
+#### Contributors
 
-#### Preperation
+Interested in contributing? Fork to get started. Contact [@logicalparadox](http://github.com/logicalparadox) 
+if you are interested in being regular contributor.
 
-You will need to start the test server. This will allow you test both the server and browser versions simultaneously.
+  * Jake Luer ([@logicalparadox](http://github.com/logicalparadox))
 
-    make test-server
+#### Installation
 
-#### Server Tests
+##### Node 
 
-To run the server side tests:
+`supercouch` package is available through [npm](http://npmjs.org).
 
-    make test
+```bash
+npm install supercouch
+```
 
-#### Browser Tests
+##### Browser
 
-To run the browser side tests, first make the most recent version:
+A commented and minified version are available in the repo. You must
+load the [SuperAgent](https://github.com/visionmedia/superagent) dependancy 
+prior to loading SuperCouch. Recommended SuperAgent version is `0.5.x`.
 
-    make 
+```html
+<script src="superagent.min.js"></script>
+<script src="supercouch.min.js"></script>
+```
 
-Then point your browser to [http://localhost:5000/test/browser/](http://localhost:5000/test/browser/).
-
-## License
+#### License
 
 (The MIT License)
 
