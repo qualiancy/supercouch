@@ -23,7 +23,7 @@
     "connect": "2.3.x",
     "codex": "0.2.x",
     "folio": "0.3.x",
-    "mocha": "*",
+    "mocha": "*"
   },
   "optionalDependencies": {},
   "engines": {
