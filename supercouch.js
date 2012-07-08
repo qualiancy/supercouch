@@ -25,7 +25,7 @@ var supercouch = function (req) {
      * SupeCouch version
      */
 
-    exports.version = '0.1.0';
+    exports.version = '0.2.0';
 
     /*!
      * toString utility
@@ -175,12 +175,26 @@ var supercouch = function (req) {
      */
 
     Request.prototype.send = function (opts, value) {
+      var body = this.reqOpts.body || (this.reqOpts.body = {});
+
       if (isObj(opts)) {
-        this.reqOpts.body = merge(opts, this.reqOpts.body || {});
+        this.reqOpts.body = merge(opts, body);
       } else {
-        if (!isObj(this.reqOpts.body)) this.reqOpts.body = {};
         this.reqOpts.body[opts] = value;
       }
+
+      return this;
+    };
+
+    Request.prototype.query = function (opts, value) {
+      var qs = this.reqOpts.qs || (this.reqOpts.qs = {});
+
+      if (isObj(opts)) {
+        this.reqOpts.qs = merge(opts, qs);
+      } else {
+        this.reqOpts.qs[opts] = value;
+      }
+
       return this;
     };
 
@@ -219,6 +233,9 @@ var supercouch = function (req) {
       else if ('HEAD' === method) req = agent.head(url);
       else return cb(new Error('Unsuppored request method'));
 
+      // add in querystrings
+      if (opts.qs) req.query(opts.qs);
+
       // convert map/reduce functions to strings
       if (opts.body) {
         var map = opts.body.map
@@ -228,11 +245,6 @@ var supercouch = function (req) {
         req.send(opts.body);
       }
 
-      if (opts.qs) {
-        for (var i = 0, l = opts.qs.length; i < l; i++) {
-          req.query(opts.qs[i]);
-        }
-      }
 
       req.end(function makeRequest (res) {
         var json
@@ -725,9 +737,9 @@ var supercouch = function (req) {
       }, this.reqOpts);
 
       opts.path.push(id);
-      if (rev) opts.qs = [ { rev: rev } ];
 
       var req = new Request(opts);
+      if (rev) req.query('rev', rev);
       if (isFn(fn)) req.end(fn);
       return req;
     };
@@ -820,9 +832,9 @@ var supercouch = function (req) {
       }, this.reqOpts);
 
       opts.path.push(id);
-      if (rev) opts.qs = [ { rev: rev } ];
 
       var req = new Request(opts);
+      if (rev) req.query('rev', rev);
       if (isFn(fn)) req.end(fn);
       return req;
     };

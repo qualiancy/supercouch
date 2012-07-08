@@ -1,4 +1,10 @@
 
+0.2.0 / 2012-07-08 
+==================
+
+  * improve querystring and body handling on Request
+  * package parse error *sigh*'
+
 0.1.0 / 2012-07-07 
 ==================
 
