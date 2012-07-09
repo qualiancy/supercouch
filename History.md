@@ -1,4 +1,12 @@
 
+0.2.1 / 2012-07-09 
+==================
+
+  * browser build
+  * update docs and add ga
+  * comments for query
+  * upgrades to folio compile
+
 0.2.0 / 2012-07-08 
 ==================
 

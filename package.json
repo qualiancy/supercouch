@@ -2,7 +2,7 @@
   "author": "Jake Luer <jake@qualiancy.com> (http://qualiancy.com)",
   "name": "supercouch",
   "description": "Super duper CouchDB driver for node and the browser.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "http://supercou.ch",
   "repository": {
     "type": "git",
