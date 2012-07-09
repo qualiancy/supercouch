@@ -8,13 +8,13 @@ var folio = require('folio');
 
 folio('supercouch')
   .root(__dirname, '..')
-  .use(folio.reader())
+  .use('reader')
     .file('./lib/supercouch.js')
     .pop()
-  .use(folio.indent())
+  .use('indent')
     .line('  ')
     .pop()
-  .use(folio.wrapper())
+  .use('wrapper')
     .prefix(
       [ 'var supercouch = function (req) {'
       , '  var module = {};\n'
@@ -26,12 +26,12 @@ folio('supercouch')
       ].join('\n')
     )
     .pop()
-  .use(folio.save())
+  .use('save')
     .file('./supercouch.js')
     .pop()
-  .use(folio.minify())
+  .use('minify')
     .pop()
-  .use(folio.wrapper())
+  .use('wrapper')
     .prefix(
       [ '/*!'
       , ' * SuperCouch'
@@ -44,8 +44,7 @@ folio('supercouch')
       ].join('\n')
     )
     .pop()
-  .use(folio.save())
+  .use('save')
     .file('./supercouch.min.js')
     .pop()
   .compile();
-
