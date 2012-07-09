@@ -1,7 +1,7 @@
 {
     "locals": {
         "title": "SuperCouch"
-      , "googleanalytics": ""
+      , "googleanalytics": "UA-28369129-3"
       , "mixpanel": ""
       , "ghuser": "qualiancy"
       , "ghbaseurl": ""

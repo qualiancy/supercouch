@@ -5,6 +5,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
     <script src="/public/js/main.js"></script>
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-28369129-3']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   </head>
   <body>
     <div class="wrapper">
@@ -23,6 +33,7 @@
           <div id="documents" class="section guide"><a href="#guide-documents" class="scroll">Managing Documents</a></div>
           <div id="request_api" class="head"><a href="#header-request_api" class="scroll">Request API</a></div>
           <div id="send" class="section request_api"><a href="#request_api-send" class="scroll">send</a></div>
+          <div id="query" class="section request_api"><a href="#request_api-query" class="scroll">query</a></div>
           <div id="end" class="section request_api"><a href="#request_api-end" class="scroll">end</a></div>
           <div id="database_api" class="head"><a href="#header-database_api" class="scroll">Database API</a></div>
           <div id="request" class="section database_api"><a href="#database_api-request" class="scroll">request</a></div>
@@ -194,6 +205,30 @@ current parameters.
 
 </p>
 <pre><code>req.send({ hello: <span class="string">'universe'</span>, scope: <span class="string">'ubiquitous'</span> });</code></pre>
+</div>
+        </div>
+        <div id="request_api-query" class="segment">
+          <div class="para"><a href="#request_api-query">&para;</a></div>
+          <div class="summary"><h3>.query (obj[, value])</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Object &#125;</span><span class="name">string</span><span class="desc">as key or object to merge</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Mixed &#125;</span><span class="name">value</span><span class="desc">to use if previous was a key</span></li>
+          </ul>
+          <div class="description"><p>Modify key/values to the querystring being appended
+to the url for a request.
+
+</p>
+<pre><code><span class="keyword">var</span> req = couch.request(<span class="string">'get'</span>, <span class="string">'/mydb/_changes'</span>);</code></pre>
+<p>Can be used to update key/value pairs...
+
+</p>
+<pre><code>req.send(<span class="string">'since'</span>, <span class="number">123</span>);</code></pre>
+<p>Or, as an object to be shallow-merged with the
+current parameters.
+
+</p>
+<pre><code>req.send({ since: <span class="number">123</span>, feed: <span class="string">'continuous'</span> });</code></pre>
 </div>
         </div>
         <div id="request_api-end" class="segment">
