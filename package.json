@@ -13,7 +13,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "0.5.x"
+    "superagent": "0.6.x"
   },
   "devDependencies": {
     "chai": "*",
