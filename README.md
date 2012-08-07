@@ -32,7 +32,7 @@ npm install supercouch
 
 A commented and minified version are available in the repo. You must
 load the [SuperAgent](https://github.com/visionmedia/superagent) dependancy 
-prior to loading SuperCouch. Recommended SuperAgent version is `0.5.x`.
+prior to loading SuperCouch. Recommended SuperAgent version is `0.7.x`.
 
 ```html
 <script src="superagent.min.js"></script>
