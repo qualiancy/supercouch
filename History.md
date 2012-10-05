@@ -1,4 +1,11 @@
 
+0.2.4 / 2012-10-05 
+==================
+
+  * update superagent dep
+  * Release 0.2.3
+  * update supercouch to 0.7.x
+
 0.2.3 / 2012-08-07 
 ==================
 
