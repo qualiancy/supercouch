@@ -25,7 +25,7 @@ var supercouch = function (req) {
      * SupeCouch version
      */
 
-    exports.version = '0.2.3';
+    exports.version = '0.2.4';
 
     /*!
      * toString utility
